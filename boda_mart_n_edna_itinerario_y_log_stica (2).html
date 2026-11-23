@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boda Martín & Edna — Logística y Cronograma</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        cream: '#FDFBF7',
+                        sand: '#F5EFE6',
+                        honey: {
+                            light: '#FBF3E4',
+                            DEFAULT: '#B47B2B',
+                            warm: '#D99B38',
+                            dark: '#8C5B19'
+                        },
+                        espresso: '#29221C',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FDFBF7;
+            color: #29221C;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .font-editorial {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+        }
+        /* Smooth custom scrollbar for filter bar */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background-color: #FFFFFF;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-honey/20 selection:text-espresso">
+
+    <!-- Top Toast Notification -->
+    <div id="toast-container" class="no-print fixed bottom-5 left-1/2 -translate-x-1/2 z-50 pointer-events-none transition-all duration-300 opacity-0 translate-y-3">
+        <div id="toast-message" class="bg-espresso text-cream text-xs sm:text-sm font-medium px-4 py-2.5 rounded-full shadow-lg border border-honey/30 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-honey-warm"></span>
+            <span id="toast-text">Actualizado</span>
+        </div>
+    </div>
+
+    <!-- Header Section -->
+    <header class="bg-gradient-to-b from-honey-light/90 via-cream to-cream border-b border-honey/20 pt-6 pb-6 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-5xl mx-auto">
+            <!-- Top Status & Sync Pill Bar -->
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                <span class="inline-flex items-center gap-1.5 text-xs font-semibold tracking-wider uppercase text-honey-dark bg-honey-light px-3 py-1 rounded-full border border-honey/25">
+                    <span>✦</span> Celebración Íntima · 30 Invitados
+                </span>
+
+                <div class="flex items-center gap-2">
+                    <span id="sync-badge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 border border-amber-300/60 transition-colors">
+                        <span id="sync-dot" class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                        <span id="sync-text">Conectando...</span>
+                    </span>
+                    <button onclick="manualSync()" title="Actualizar desde Google Sheets" class="no-print inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white hover:bg-sand text-espresso border border-stone-300/80 shadow-xs transition active:scale-95">
+                        <svg id="sync-icon" class="w-3.5 h-3.5 text-honey-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                        </svg>
+                        <span>Actualizar datos</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Title & Actions -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <h1 class="font-editorial text-3xl sm:text-4xl lg:text-5xl font-bold text-espresso tracking-tight leading-tight">
+                        Boda Martín &amp; Edna
+                    </h1>
+                    <p class="text-sm sm:text-base text-stone-600 mt-1">
+                        Logística general, roles de ceremonia y cronograma en tiempo real
+                    </p>
+                </div>
+
+                <!-- Primary Action Buttons -->
+                <div class="no-print flex flex-wrap items-center gap-2.5">
+                    <button onclick="openAddScheduleModal()" class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-honey hover:bg-honey-dark text-white shadow-sm transition active:scale-95">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        <span>Agregar horario</span>
+                    </button>
+                    <button onclick="copyWhatsAppSummary()" class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-white hover:bg-sand text-espresso border border-honey/40 shadow-xs transition active:scale-95">
+                        <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
+                        </svg>
+                        <span>Copiar para WhatsApp</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10">
+
+        <!-- SECTION 1: General Event Info Cards -->
+        <section aria-labelledby="info-heading">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h2 id="info-heading" class="font-editorial text-2xl sm:text-3xl font-bold text-espresso">
+                        Información General del Evento
+                    </h2>
+                    <p class="text-xs text-stone-500">Haz clic en "Editar / Confirmar" en cualquier tarjeta para actualizarla en vivo.</p>
+                </div>
+            </div>
+
+            <div id="general-info-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
+                <!-- Populated dynamically via JS -->
+            </div>
+        </section>
+
+        <!-- SECTION 2: Interactive Schedule (Cronograma) -->
+        <section aria-labelledby="schedule-heading">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-4">
+                <div>
+                    <h2 id="schedule-heading" class="font-editorial text-2xl sm:text-3xl font-bold text-espresso">
+                        Cronograma del Día
+                    </h2>
+                    <p class="text-xs text-stone-500">Ordenado automáticamente por hora · Sincronizado para todos los invitados</p>
+                </div>
+
+                <!-- Pending Filter Toggle -->
+                <div class="no-print flex items-center gap-2">
+                    <button id="btn-only-pending" onclick="toggleOnlyPending()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold border border-amber-300 bg-amber-50/70 text-amber-800 hover:bg-amber-100 transition">
+                        <span id="pending-filter-dot" class="w-2 h-2 rounded-full bg-amber-500"></span>
+                        <span>Solo pendientes</span>
+                        <span id="pending-count-pill" class="ml-0.5 px-1.5 py-0.2 rounded-full bg-amber-200/80 text-amber-900 text-[10px] font-bold">0</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Category Filter Tabs -->
+            <div class="no-print flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 mb-4" id="category-tabs">
+                <button data-cat="all" onclick="setCategoryFilter('all')" class="cat-tab active px-3.5 py-2 rounded-full text-xs font-semibold whitespace-nowrap bg-espresso text-cream shadow-xs transition">
+                    Todo el día
+                </button>
+                <button data-cat="Preparación" onclick="setCategoryFilter('Preparación')" class="cat-tab px-3.5 py-2 rounded-full text-xs font-semibold whitespace-nowrap bg-white text-stone-700 border border-stone-200 hover:bg-sand transition">
+                    Preparación
+                </button>
+                <button data-cat="Ceremonia" onclick="setCategoryFilter('Ceremonia')" class="cat-tab px-3.5 py-2 rounded-full text-xs font-semibold whitespace-nowrap bg-white text-stone-700 border border-stone-200 hover:bg-sand transition">
+                    Ceremonia
+                </button>
+                <button data-cat="Recepción y Cena" onclick="setCategoryFilter('Recepción y Cena')" class="cat-tab px-3.5 py-2 rounded-full text-xs font-semibold whitespace-nowrap bg-white text-stone-700 border border-stone-200 hover:bg-sand transition">
+                    Recepción y Cena
+                </button>
+                <button data-cat="Cierre" onclick="setCategoryFilter('Cierre')" class="cat-tab px-3.5 py-2 rounded-full text-xs font-semibold whitespace-nowrap bg-white text-stone-700 border border-stone-200 hover:bg-sand transition">
+                    Cierre
+                </button>
+            </div>
+
+            <!-- Timeline List -->
+            <div id="schedule-list" class="space-y-3.5">
+                <!-- Populated dynamically via JS -->
+            </div>
+        </section>
+
+        <!-- SECTION 3: Ceremony Roles & Elements -->
+        <section aria-labelledby="ceremony-heading">
+            <div class="mb-4">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-honey-dark">Organización Litúrgica y Protocolo</span>
+                <h2 id="ceremony-heading" class="font-editorial text-2xl sm:text-3xl font-bold text-espresso">
+                    Ceremonia — Roles y Elementos
+                </h2>
+                <p class="text-xs text-stone-500">Responsables de cada momento y elemento para las 5:30 PM.</p>
+            </div>
+
+            <div id="ceremony-roles-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
+                <!-- Populated dynamically via JS -->
+            </div>
+        </section>
+
+        <!-- SECTION 4: Dynamic Pending Summary Card -->
+        <section id="pending-summary-section" aria-labelledby="pending-heading" class="pt-2">
+            <div class="rounded-3xl bg-amber-50 border-2 border-amber-300/80 p-5 sm:p-6 shadow-xs">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-amber-200/80">
+                    <div class="flex items-center gap-2.5">
+                        <span class="w-8 h-8 rounded-full bg-amber-200/80 text-amber-900 flex items-center justify-center font-bold text-sm shrink-0">!</span>
+                        <div>
+                            <h2 id="pending-heading" class="font-editorial text-2xl font-bold text-amber-950">
+                                Resumen de Puntos por Confirmar
+                            </h2>
+                            <p class="text-xs text-amber-800">Esta lista se actualiza automáticamente cuando confirmas, agregas o eliminas elementos.</p>
+                        </div>
+                    </div>
+                    <span id="total-pending-badge" class="self-start sm:self-center px-3 py-1 rounded-full bg-amber-200 text-amber-950 text-xs font-bold">
+                        0 pendientes
+                    </span>
+                </div>
+
+                <ul id="pending-summary-list" class="mt-4 space-y-2.5 text-xs sm:text-sm text-amber-950">
+                    <!-- Populated dynamically via JS -->
+                </ul>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-honey/20 bg-sand/50 py-6 px-4 text-center text-xs text-stone-500">
+        <p class="font-editorial text-base text-espresso font-semibold">Martín &amp; Edna · 22 de Diciembre de 2026</p>
+        <p class="mt-1">Documento colaborativo sincronizado en tiempo real con Google Sheets</p>
+    </footer>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 1: ADD / EDIT SCHEDULE ITEM                                     -->
+    <!-- ===================================================================== -->
+    <div id="schedule-modal" class="no-print fixed inset-0 z-50 hidden items-center justify-center bg-espresso/50 backdrop-blur-xs p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-honey/30 my-auto">
+            <div class="flex items-start justify-between gap-3">
+                <div>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-honey-dark">Cronograma del Evento</span>
+                    <h3 id="schedule-modal-title" class="font-editorial text-2xl sm:text-3xl font-bold text-espresso mt-0.5">
+                        Agregar horario
+                    </h3>
+                </div>
+                <button onclick="closeScheduleModal()" class="p-2 rounded-full text-stone-400 hover:text-espresso hover:bg-stone-100 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <form id="schedule-form" onsubmit="handleScheduleSubmit(event)" class="mt-4 space-y-4">
+                <input type="hidden" id="sched-id">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <!-- Time Picker -->
+                    <div>
+                        <label for="sched-time-24" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1">
+                            Hora del evento *
+                        </label>
+                        <input type="time" id="sched-time-24" required class="w-full rounded-2xl border border-stone-300 px-3.5 py-2.5 text-sm text-espresso focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20">
+                    </div>
+
+                    <!-- Category -->
+                    <div>
+                        <label for="sched-category" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1">
+                            Bloque / Categoría *
+                        </label>
+                        <select id="sched-category" required class="w-full rounded-2xl border border-stone-300 px-3.5 py-2.5 text-sm text-espresso bg-white focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20">
+                            <option value="Preparación">Preparación</option>
+                            <option value="Ceremonia">Ceremonia</option>
+                            <option value="Recepción y Cena">Recepción y Cena</option>
+                            <option value="Cierre">Cierre</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Title -->
+                <div>
+                    <label for="sched-title" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1">
+                        Título de la actividad *
+                    </label>
+                    <input type="text" id="sched-title" required placeholder="Ej. Fotos con padrinos y familia" class="w-full rounded-2xl border border-stone-300 px-3.5 py-2.5 text-sm text-espresso focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20">
+                </div>
+
+                <!-- Description -->
+                <div>
+                    <label for="sched-desc" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1">
+                        Descripción y detalles *
+                    </label>
+                    <textarea id="sched-desc" rows="3" required placeholder="Explica qué sucede, quién participa o indicaciones para el DJ..." class="w-full rounded-2xl border border-stone-300 px-3.5 py-2.5 text-sm text-espresso focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20"></textarea>
+                </div>
+
+                <!-- Status Toggle -->
+                <div class="p-3.5 rounded-2xl bg-sand/70 border border-stone-200/80 space-y-3">
+                    <span class="block text-xs font-bold uppercase tracking-wider text-stone-600">Estado de confirmación</span>
+                    <div class="grid grid-cols-2 gap-2">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="sched-status" value="confirmed" checked onchange="toggleSchedPendingField()" class="peer sr-only">
+                            <div class="text-center py-2 px-3 rounded-xl text-xs font-semibold border border-stone-300 bg-white text-stone-600 peer-checked:bg-emerald-700 peer-checked:text-white peer-checked:border-emerald-700 transition">
+                                ✓ Ya confirmado
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="sched-status" value="pending" onchange="toggleSchedPendingField()" class="peer sr-only">
+                            <div class="text-center py-2 px-3 rounded-xl text-xs font-semibold border border-stone-300 bg-white text-stone-600 peer-checked:bg-amber-600 peer-checked:text-white peer-checked:border-amber-600 transition">
+                                ! Por confirmar
+                            </div>
+                        </label>
+                    </div>
+
+                    <div id="sched-pending-wrapper" class="hidden">
+                        <label for="sched-pending-note" class="block text-xs font-semibold text-amber-900 mb-1">
+                            ¿Qué falta por confirmar exactamente?
+                        </label>
+                        <input type="text" id="sched-pending-note" placeholder="Ej. Falta definir canción o responsable" class="w-full rounded-xl border border-amber-300 bg-white px-3 py-2 text-xs text-espresso focus:outline-none focus:border-amber-500">
+                    </div>
+                </div>
+
+                <div class="pt-2 flex items-center justify-end gap-2">
+                    <button type="button" onclick="closeScheduleModal()" class="px-4 py-2.5 rounded-full text-xs font-semibold text-stone-600 hover:bg-stone-100 transition">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-5 py-2.5 rounded-full text-xs font-semibold bg-honey hover:bg-honey-dark text-white shadow-sm transition">
+                        Guardar y Sincronizar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 2: EDIT GENERAL INFO OR CEREMONY ROLE                           -->
+    <!-- ===================================================================== -->
+    <div id="card-edit-modal" class="no-print fixed inset-0 z-50 hidden items-center justify-center bg-espresso/50 backdrop-blur-xs p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-honey/30 my-auto">
+            <div class="flex items-start justify-between gap-3">
+                <div>
+                    <span id="card-modal-subtitle" class="text-[11px] font-bold uppercase tracking-wider text-honey-dark">Actualizar información</span>
+                    <h3 id="card-modal-title" class="font-editorial text-2xl sm:text-3xl font-bold text-espresso mt-0.5">
+                        Editar elemento
+                    </h3>
+                </div>
+                <button onclick="closeCardEditModal()" class="p-2 rounded-full text-stone-400 hover:text-espresso hover:bg-stone-100 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <form id="card-edit-form" onsubmit="handleCardEditSubmit(event)" class="mt-4 space-y-4">
+                <input type="hidden" id="card-edit-type">
+                <input type="hidden" id="card-edit-id">
+
+                <div>
+                    <label for="card-edit-value" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1">
+                        Detalle / Responsable confirmado *
+                    </label>
+                    <textarea id="card-edit-value" rows="3" required class="w-full rounded-2xl border border-stone-300 px-3.5 py-2.5 text-sm text-espresso focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20"></textarea>
+                </div>
+
+                <!-- Optional Google Maps Link (shown only for Lugar / Sede) -->
+                <div id="card-edit-maps-wrapper" class="hidden">
+                    <label for="card-edit-maps" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1">
+                        Enlace de Google Maps (opcional)
+                    </label>
+                    <input type="url" id="card-edit-maps" placeholder="https://maps.app.goo.gl/..." class="w-full rounded-2xl border border-stone-300 px-3.5 py-2 text-xs text-espresso focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20">
+                </div>
+
+                <!-- Status Toggle -->
+                <div class="p-3.5 rounded-2xl bg-sand/70 border border-stone-200/80 space-y-2">
+                    <span class="block text-xs font-bold uppercase tracking-wider text-stone-600">Estado</span>
+                    <div class="grid grid-cols-2 gap-2">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="card-status" value="confirmed" checked class="peer sr-only">
+                            <div class="text-center py-2 px-3 rounded-xl text-xs font-semibold border border-stone-300 bg-white text-stone-600 peer-checked:bg-emerald-700 peer-checked:text-white peer-checked:border-emerald-700 transition">
+                                ✓ Confirmado
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="card-status" value="pending" class="peer sr-only">
+                            <div class="text-center py-2 px-3 rounded-xl text-xs font-semibold border border-stone-300 bg-white text-stone-600 peer-checked:bg-amber-600 peer-checked:text-white peer-checked:border-amber-600 transition">
+                                ! Por confirmar
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="pt-2 flex items-center justify-end gap-2">
+                    <button type="button" onclick="closeCardEditModal()" class="px-4 py-2.5 rounded-full text-xs font-semibold text-stone-600 hover:bg-stone-100 transition">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-5 py-2.5 rounded-full text-xs font-semibold bg-emerald-700 hover:bg-emerald-800 text-white shadow-sm transition">
+                        Guardar y Sincronizar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 3: DELETE CONFIRMATION (Custom Modal - No browser confirm())    -->
+    <!-- ===================================================================== -->
+    <div id="delete-modal" class="no-print fixed inset-0 z-50 hidden items-center justify-center bg-espresso/50 backdrop-blur-xs p-4">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-red-200 text-center">
+            <div class="w-12 h-12 rounded-full bg-red-100 text-red-700 mx-auto flex items-center justify-center mb-3">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+            </div>
+            <h3 class="font-editorial text-2xl font-bold text-espresso">¿Eliminar horario?</h3>
+            <p id="delete-modal-desc" class="text-xs text-stone-600 mt-1.5">
+                Este bloque se eliminará del cronograma para todos los invitados.
+            </p>
+            <div class="mt-5 flex items-center justify-center gap-2.5">
+                <button onclick="closeDeleteModal()" class="px-4 py-2 rounded-full text-xs font-semibold text-stone-600 hover:bg-stone-100 transition">
+                    Cancelar
+                </button>
+                <button onclick="confirmDeleteSchedule()" class="px-5 py-2 rounded-full text-xs font-semibold bg-red-600 hover:bg-red-700 text-white shadow-xs transition">
+                    Sí, eliminar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- APPLICATION LOGIC & GOOGLE SHEETS SYNC                                -->
+    <!-- ===================================================================== -->
+    <script>
+        // Hardcoded Google Apps Script Web App URL for Real-Time Cloud Sync
+        const GOOGLE_SHEETS_API_URL = "https://script.google.com/macros/s/AKfycbxPcQd9Z0v9Jmqxp7qCkH5mYBKwBi2bkgGqpZsAQYPr84ZPY2-RUVwpe7YtnCotpPqA/exec";
+        const LOCAL_STORAGE_KEY = "boda_martin_edna_github_v1";
+
+        // Default General Event Info
+        const defaultGeneralInfo = [
+            {
+                id: "info-date",
+                label: "Fecha del Evento",
+                value: "Martes 22 de diciembre de 2026",
+                confirmed: true,
+                mapsUrl: ""
+            },
+            {
+                id: "info-venue",
+                label: "Lugar / Sede",
+                value: "Por confirmar",
+                confirmed: false,
+                mapsUrl: ""
+            },
+            {
+                id: "info-guests",
+                label: "Invitados",
+                value: "30 personas (Boda íntima)",
+                confirmed: true,
+                mapsUrl: ""
+            },
+            {
+                id: "info-dresscode",
+                label: "Vestimenta y Temática",
+                value: "Formal — Temática tonos miel (ámbar, dorado cálido, beige, crema)",
+                confirmed: true,
+                mapsUrl: ""
+            },
+            {
+                id: "info-contact",
+                label: "Contacto de Apoyo y Fotografía",
+                value: "Santiago Piñón (Coordinación en sitio y fotografía)",
+                confirmed: true,
+                mapsUrl: ""
+            }
+        ];
+
+        // Default Schedule Items (with 24h time for accurate chronological sorting)
+        const defaultSchedule = [
+            {
+                id: "sched-1",
+                time24: "13:00",
+                category: "Preparación",
+                title: "Llegada de familia y montaje",
+                description: "Llega la familia para apoyar con el arreglo, montaje de mesas, altar y detalles del lugar.",
+                confirmed: true,
+                pendingNote: ""
+            },
+            {
+                id: "sched-2",
+                time24: "15:30",
+                category: "Preparación",
+                title: "Fin de montaje familiar y arreglo personal",
+                description: "Cierre de decoración por parte de la familia para cambiarse y alistarse con tiempo.",
+                confirmed: true,
+                pendingNote: ""
+            },
+            {
+                id: "sched-3",
+                time24: "16:00",
+                category: "Preparación",
+                title: "Llegada de DJ",
+                description: "Inicio de descarga, montaje y pruebas de audio. Puede seguir ajustando equipo hasta antes de ocuparlo.",
+                confirmed: true,
+                pendingNote: ""
+            },
+            {
+                id: "sched-4",
+                time24: "17:00",
+                category: "Recepción y Cena",
+                title: "Recepción de invitados",
+                description: "Llegada y acomodo de los 30 invitados.",
+                confirmed: true,
+                pendingNote: ""
+            },
+            {
+                id: "sched-5",
+                time24: "17:25",
+                category: "Ceremonia",
+                title: "Llamado a tomar asiento",
+                description: "Aviso 5 minutos antes para arrancar puntuales.",
+                confirmed: true,
+                pendingNote: ""
+            },
+            {
+                id: "sched-6",
+                time24: "17:30",
+                category: "Ceremonia",
+                title: "Ceremonia y Misa",
+                description: "Duración ~55 min: 15 min adoración (música por Bluetooth), 20 min prédica (Pastor Willy) y 20 min ceremonia.",
+                confirmed: false,
+                pendingNote: "Definir canciones exactas de adoración"
+            },
+            {
+                id: "sched-7",
+                time24: "18:30",
+                category: "Ceremonia",
+                title: "Fin de ceremonia y sesión rápida de novios",
+                description: "Sesión rápida de pareja mientras invitados esperan.",
+                confirmed: false,
+                pendingNote: "Confirmar si se sirven canapés y si habrá piano en vivo hasta las 8:00 PM"
+            },
+            {
+                id: "sched-8",
+                time24: "19:10",
+                category: "Recepción y Cena",
+                title: "Entrada de novios y brindis",
+                description: "Entrada tranquila de Martín y Edna. Palabras de Martín, Edna y papá. Brindis con vino sin alcohol.",
+                confirmed: false,
+                pendingNote: "Definir quién reparte copas antes de las 7:10 PM"
+            },
+            {
+                id: "sched-9",
+                time24: "19:30",
+                category: "Recepción y Cena",
+                title: "Cena y sesión de fotos con invitados",
+                description: "Comida combinada con fotos: DJ llama por mesa, se forman y se dividen por personas para agilizar. Comen proveedores en paralelo.",
+                confirmed: true,
+                pendingNote: ""
+            },
+            {
+                id: "sched-10",
+                time24: "20:40",
+                category: "Recepción y Cena",
+                title: "Corte y servicio de pastel",
+                description: "Partida de pastel y repartición a las 30 personas.",
+                confirmed: true,
+                pendingNote: ""
+            },
+            {
+                id: "sched-11",
+                time24: "21:00",
+                category: "Recepción y Cena",
+                title: "Vals de los novios (10 min)",
+                description: "Bailan únicamente Martín y Edna (duración estimada 10 minutos).",
+                confirmed: false,
+                pendingNote: "Confirmar canción del vals"
+            },
+            {
+                id: "sched-12",
+                time24: "21:10",
+                category: "Recepción y Cena",
+                title: "Apertura de pista, baile y juegos",
+                description: "Música variada con DJ (cumbias, salsa, ambiente) y dinámicas/juegos con los invitados.",
+                confirmed: true,
+                pendingNote: ""
+            },
+            {
+                id: "sched-13",
+                time24: "22:30",
+                category: "Cierre",
+                title: "Cierre oficial del evento",
+                description: "Anuncio de finalización de la boda.",
+                confirmed: true,
+                pendingNote: ""
+            },
+            {
+                id: "sched-14",
+                time24: "23:00",
+                category: "Cierre",
+                title: "Desmontaje y salida",
+                description: "Recolección de equipo del DJ, familia y cierre del lugar.",
+                confirmed: true,
+                pendingNote: ""
+            }
+        ];
+
+        // Default Ceremony Roles & Elements
+        const defaultCeremonyRoles = [
+            {
+                id: "role-1",
+                title: "Entrada y entrega de novios",
+                value: "Definir cómo entran Martín y Edna",
+                confirmed: false
+            },
+            {
+                id: "role-2",
+                title: "Oficiante y Prédica",
+                value: "Pastor Willy",
+                confirmed: true
+            },
+            {
+                id: "role-3",
+                title: "Alabanza / Adoración (15 min)",
+                value: "Música reproducida por Bluetooth",
+                confirmed: true
+            },
+            {
+                id: "role-4",
+                title: "Anillos de matrimonio",
+                value: "Definir quién los resguarda y entrega",
+                confirmed: false
+            },
+            {
+                id: "role-5",
+                title: "Biblia, votos y documentos",
+                value: "Confirmar si leerán votos escritos o firma",
+                confirmed: false
+            },
+            {
+                id: "role-6",
+                title: "Control de música en ceremonia",
+                value: "DJ encargado de audio y pistas",
+                confirmed: true
+            }
+        ];
+
+        // Application State
+        let appState = {
+            generalInfo: JSON.parse(JSON.stringify(defaultGeneralInfo)),
+            schedule: JSON.parse(JSON.stringify(defaultSchedule)),
+            ceremonyRoles: JSON.parse(JSON.stringify(defaultCeremonyRoles))
+        };
+
+        // UI Filter State
+        let currentCategory = "all";
+        let onlyPending = false;
+        let pendingDeleteId = null;
+
+        // =====================================================================
+        // TIME FORMATTING & SORTING HELPERS
+        // =====================================================================
+        function formatTime12h(time24) {
+            if (!time24 || !time24.includes(":")) return time24 || "";
+            const [hStr, mStr] = time24.split(":");
+            let h = parseInt(hStr, 10);
+            const period = h >= 12 ? "PM" : "AM";
+            h = h % 12;
+            if (h === 0) h = 12;
+            return `${h}:${mStr} ${period}`;
+        }
+
+        function sortScheduleChronologically() {
+            appState.schedule.sort((a, b) => {
+                // Treat early morning times (00:00 - 04:59) as after midnight (24:00+)
+                const normA = a.time24 < "05:00" ? "24" + a.time24 : a.time24;
+                const normB = b.time24 < "05:00" ? "24" + b.time24 : b.time24;
+                return normA.localeCompare(normB);
+            });
+        }
+
+        // =====================================================================
+        // GOOGLE SHEETS SYNC ENGINE
+        // =====================================================================
+        function setSyncStatus(status, text) {
+            const badge = document.getElementById("sync-badge");
+            const dot = document.getElementById("sync-dot");
+            const label = document.getElementById("sync-text");
+            if (!badge || !dot || !label) return;
+
+            label.textContent = text;
+            if (status === "synced") {
+                badge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300/70 transition-colors";
+                dot.className = "w-2 h-2 rounded-full bg-emerald-600";
+            } else if (status === "saving" || status === "loading") {
+                badge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 border border-amber-300/70 transition-colors";
+                dot.className = "w-2 h-2 rounded-full bg-amber-500 animate-pulse";
+            } else {
+                badge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-stone-200 text-stone-700 border border-stone-300 transition-colors";
+                dot.className = "w-2 h-2 rounded-full bg-stone-500";
+            }
+        }
+
+        function loadFromLocalStorage() {
+            try {
+                const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (parsed.generalInfo && parsed.schedule && parsed.ceremonyRoles) {
+                        appState = parsed;
+                    }
+                }
+            } catch (e) {
+                console.warn("No se pudo leer localStorage:", e);
+            }
+        }
+
+        function saveToLocalStorage() {
+            try {
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(appState));
+            } catch (e) {
+                console.warn("No se pudo guardar en localStorage:", e);
+            }
+        }
+
+        async function fetchFromGoogleSheets(showNotification = false) {
+            setSyncStatus("loading", "Sincronizando...");
+            try {
+                const response = await fetch(GOOGLE_SHEETS_API_URL, {
+                    method: "GET",
+                    cache: "no-store"
+                });
+                const cloudData = await response.json();
+
+                // If Google Sheet already has saved state, load it; otherwise push initial default state
+                if (cloudData && Array.isArray(cloudData.schedule) && cloudData.schedule.length > 0) {
+                    appState = cloudData;
+                    sortScheduleChronologically();
+                    saveToLocalStorage();
+                    renderAll();
+                    setSyncStatus("synced", "Sincronizado en vivo");
+                    if (showNotification) showToast("Datos actualizados desde la nube");
+                } else {
+                    // First-time initialization in Google Sheets
+                    await pushToGoogleSheets(false);
+                }
+            } catch (err) {
+                console.error("Error sincronizando con Google Sheets:", err);
+                setSyncStatus("offline", "Sin conexión (Modo local)");
+                if (showNotification) showToast("Sin conexión: mostrando copia local");
+            }
+        }
+
+        async function pushToGoogleSheets(notifySuccess = true) {
+            sortScheduleChronologically();
+            saveToLocalStorage();
+            renderAll();
+
+            setSyncStatus("saving", "Guardando...");
+            try {
+                await fetch(GOOGLE_SHEETS_API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify(appState)
+                });
+                setSyncStatus("synced", "Sincronizado en vivo");
+                if (notifySuccess) showToast("Guardado y sincronizado para todos");
+            } catch (err) {
+                console.error("Error guardando en Google Sheets:", err);
+                setSyncStatus("offline", "Sin conexión (Guardado local)");
+                showToast("Guardado localmente (revisa tu internet)");
+            }
+        }
+
+        async function manualSync() {
+            const icon = document.getElementById("sync-icon");
+            if (icon) icon.classList.add("animate-spin");
+            await fetchFromGoogleSheets(true);
+            if (icon) icon.classList.remove("animate-spin");
+        }
+
+        // =====================================================================
+        // RENDERING FUNCTIONS
+        // =====================================================================
+        function escapeHtml(str) {
+            if (!str) return "";
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;");
+        }
+
+        function renderGeneralInfo() {
+            const container = document.getElementById("general-info-grid");
+            if (!container) return;
+
+            container.innerHTML = appState.generalInfo.map(item => {
+                const isConf = item.confirmed;
+                const cardStyle = isConf
+                    ? "bg-white border-stone-200/90"
+                    : "bg-amber-50/90 border-amber-300 ring-1 ring-amber-200/60";
+                const badgeHtml = isConf
+                    ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800">✓ Confirmado</span>`
+                    : `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-200 text-amber-900">! Por confirmar</span>`;
+
+                const mapsButton = (item.id === "info-venue" && item.mapsUrl && item.mapsUrl.trim() !== "")
+                    ? `<a href="${escapeHtml(item.mapsUrl)}" target="_blank" rel="noopener noreferrer" class="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-honey-dark hover:underline">
+                         <span>📍 Ver ubicación en Google Maps</span>
+                       </a>`
+                    : "";
+
+                return `
+                    <div class="rounded-2xl border p-4 shadow-2xs flex flex-col justify-between transition ${cardStyle}">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-2">
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-stone-500">${escapeHtml(item.label)}</span>
+                                ${badgeHtml}
+                            </div>
+                            <p class="text-sm font-semibold text-espresso leading-snug">${escapeHtml(item.value)}</p>
+                            ${mapsButton}
+                        </div>
+                        <div class="no-print mt-3.5 pt-2.5 border-t border-stone-200/60 flex justify-end">
+                            <button onclick="openCardEditModal('generalInfo', '${item.id}')" class="text-xs font-semibold text-honey-dark hover:text-espresso px-2.5 py-1 rounded-full hover:bg-honey-light transition">
+                                Editar / Confirmar
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        function renderSchedule() {
+            const container = document.getElementById("schedule-list");
+            if (!container) return;
+
+            const filtered = appState.schedule.filter(item => {
+                const matchesCat = currentCategory === "all" || item.category === currentCategory;
+                const matchesPending = !onlyPending || !item.confirmed;
+                return matchesCat && matchesPending;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="rounded-3xl bg-white border border-stone-200 p-8 text-center">
+                        <p class="font-editorial text-xl font-semibold text-espresso">No hay actividades en esta vista</p>
+                        <p class="text-xs text-stone-500 mt-1">Cambia el filtro superior o agrega un nuevo horario con el botón "+ Agregar horario".</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.map(item => {
+                const isConf = item.confirmed;
+                const cardBorder = isConf
+                    ? "bg-white border-stone-200/90 hover:border-honey/40"
+                    : "bg-amber-50/80 border-amber-300 ring-1 ring-amber-200/50";
+
+                const statusHtml = isConf
+                    ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800">
+                         ✓ Confirmado
+                       </span>`
+                    : `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-200 text-amber-950">
+                         ! Por confirmar${item.pendingNote ? `: ${escapeHtml(item.pendingNote)}` : ""}
+                       </span>`;
+
+                return `
+                    <article class="rounded-2xl border p-4 sm:p-5 shadow-2xs transition ${cardBorder}">
+                        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                            <!-- Left: Time & Category -->
+                            <div class="flex sm:flex-col items-center sm:items-start gap-2 sm:w-36 shrink-0">
+                                <span class="font-editorial text-2xl sm:text-3xl font-bold text-honey-dark leading-none">
+                                    ${formatTime12h(item.time24)}
+                                </span>
+                                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-sand text-stone-700 border border-stone-200/80">
+                                    ${escapeHtml(item.category)}
+                                </span>
+                            </div>
+
+                            <!-- Center: Title, Description & Status -->
+                            <div class="flex-1 min-w-0">
+                                <div class="flex flex-wrap items-center gap-2 mb-1.5">
+                                    <h3 class="text-base sm:text-lg font-bold text-espresso leading-snug">
+                                        ${escapeHtml(item.title)}
+                                    </h3>
+                                </div>
+                                <p class="text-xs sm:text-sm text-stone-600 leading-relaxed">
+                                    ${escapeHtml(item.description)}
+                                </p>
+                                <div class="mt-2.5">
+                                    ${statusHtml}
+                                </div>
+                            </div>
+
+                            <!-- Right: Edit & Delete Actions -->
+                            <div class="no-print flex items-center gap-1.5 self-end sm:self-start shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-stone-200/60 w-full sm:w-auto justify-end">
+                                <button onclick="openEditScheduleModal('${item.id}')" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold bg-honey-light hover:bg-honey hover:text-white text-honey-dark transition">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                    </svg>
+                                    <span>Editar</span>
+                                </button>
+                                <button onclick="openDeleteModal('${item.id}')" title="Eliminar horario" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-semibold text-red-700 hover:bg-red-100 transition">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                    </svg>
+                                    <span class="sm:hidden">Eliminar</span>
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join("");
+        }
+
+        function renderCeremonyRoles() {
+            const container = document.getElementById("ceremony-roles-grid");
+            if (!container) return;
+
+            container.innerHTML = appState.ceremonyRoles.map(role => {
+                const isConf = role.confirmed;
+                const cardStyle = isConf
+                    ? "bg-white border-stone-200/90"
+                    : "bg-amber-50/90 border-amber-300 ring-1 ring-amber-200/60";
+                const badgeHtml = isConf
+                    ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800">✓ Confirmado</span>`
+                    : `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-200 text-amber-900">! Por confirmar</span>`;
+
+                return `
+                    <div class="rounded-2xl border p-4 shadow-2xs flex flex-col justify-between transition ${cardStyle}">
+                        <div>
+                            <div class="flex items-start justify-between gap-2 mb-2">
+                                <h3 class="text-sm font-bold text-espresso">${escapeHtml(role.title)}</h3>
+                                <div class="shrink-0">${badgeHtml}</div>
+                            </div>
+                            <p class="text-xs sm:text-sm text-stone-700 leading-relaxed">${escapeHtml(role.value)}</p>
+                        </div>
+                        <div class="no-print mt-3.5 pt-2.5 border-t border-stone-200/60 flex justify-end">
+                            <button onclick="openCardEditModal('ceremonyRoles', '${role.id}')" class="text-xs font-semibold text-honey-dark hover:text-espresso px-2.5 py-1 rounded-full hover:bg-honey-light transition">
+                                Confirmar / Editar
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        function renderPendingSummary() {
+            const listEl = document.getElementById("pending-summary-list");
+            const totalBadge = document.getElementById("total-pending-badge");
+            const filterPill = document.getElementById("pending-count-pill");
+            if (!listEl || !totalBadge || !filterPill) return;
+
+            const pendingItems = [];
+
+            appState.generalInfo.forEach(item => {
+                if (!item.confirmed) {
+                    pendingItems.push({
+                        section: "Información General",
+                        title: item.label,
+                        detail: item.value
+                    });
+                }
+            });
+
+            appState.schedule.forEach(item => {
+                if (!item.confirmed) {
+                    pendingItems.push({
+                        section: `Cronograma (${formatTime12h(item.time24)})`,
+                        title: item.title,
+                        detail: item.pendingNote || "Falta confirmar detalle"
+                    });
+                }
+            });
+
+            appState.ceremonyRoles.forEach(role => {
+                if (!role.confirmed) {
+                    pendingItems.push({
+                        section: "Ceremonia y Roles",
+                        title: role.title,
+                        detail: role.value
+                    });
+                }
+            });
+
+            const schedPendingCount = appState.schedule.filter(s => !s.confirmed).length;
+            filterPill.textContent = schedPendingCount;
+            totalBadge.textContent = `${pendingItems.length} ${pendingItems.length === 1 ? "pendiente" : "pendientes"}`;
+
+            if (pendingItems.length === 0) {
+                listEl.innerHTML = `
+                    <li class="p-3.5 rounded-2xl bg-emerald-100/80 border border-emerald-300 text-emerald-900 font-semibold text-center">
+                        🎉 ¡Todo está confirmado! No queda ningún punto pendiente para la boda.
+                    </li>
+                `;
+                return;
+            }
+
+            listEl.innerHTML = pendingItems.map(p => `
+                <li class="flex items-start gap-2.5 p-3 rounded-2xl bg-white/90 border border-amber-200/90">
+                    <span class="w-2 h-2 rounded-full bg-amber-500 mt-1.5 shrink-0"></span>
+                    <div>
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-amber-800">${escapeHtml(p.section)}</span>
+                        <p class="font-semibold text-espresso">${escapeHtml(p.title)}: <span class="font-normal text-stone-700">${escapeHtml(p.detail)}</span></p>
+                    </div>
+                </li>
+            `).join("");
+        }
+
+        function renderAll() {
+            renderGeneralInfo();
+            renderSchedule();
+            renderCeremonyRoles();
+            renderPendingSummary();
+        }
+
+        // =====================================================================
+        // FILTERS & INTERACTIONS
+        // =====================================================================
+        function setCategoryFilter(cat) {
+            currentCategory = cat;
+            document.querySelectorAll(".cat-tab").forEach(btn => {
+                if (btn.dataset.cat === cat) {
+                    btn.className = "cat-tab active px-3.5 py-2 rounded-full text-xs font-semibold whitespace-nowrap bg-espresso text-cream shadow-xs transition";
+                } else {
+                    btn.className = "cat-tab px-3.5 py-2 rounded-full text-xs font-semibold whitespace-nowrap bg-white text-stone-700 border border-stone-200 hover:bg-sand transition";
+                }
+            });
+            renderSchedule();
+        }
+
+        function toggleOnlyPending() {
+            onlyPending = !onlyPending;
+            const btn = document.getElementById("btn-only-pending");
+            if (onlyPending) {
+                btn.className = "inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold border border-amber-600 bg-amber-600 text-white shadow-xs transition";
+            } else {
+                btn.className = "inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold border border-amber-300 bg-amber-50/70 text-amber-800 hover:bg-amber-100 transition";
+            }
+            renderSchedule();
+        }
+
+        // =====================================================================
+        // MODAL 1: ADD & EDIT SCHEDULE HANDLERS
+        // =====================================================================
+        function toggleSchedPendingField() {
+            const status = document.querySelector('input[name="sched-status"]:checked').value;
+            const wrapper = document.getElementById("sched-pending-wrapper");
+            if (status === "pending") {
+                wrapper.classList.remove("hidden");
+            } else {
+                wrapper.classList.add("hidden");
+            }
+        }
+
+        function openAddScheduleModal() {
+            document.getElementById("schedule-modal-title").textContent = "Agregar nuevo horario";
+            document.getElementById("sched-id").value = "";
+            document.getElementById("sched-time-24").value = "18:45";
+            document.getElementById("sched-category").value = "Recepción y Cena";
+            document.getElementById("sched-title").value = "";
+            document.getElementById("sched-desc").value = "";
+            document.querySelector('input[name="sched-status"][value="confirmed"]').checked = true;
+            document.getElementById("sched-pending-note").value = "";
+            toggleSchedPendingField();
+
+            const modal = document.getElementById("schedule-modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        }
+
+        function openEditScheduleModal(id) {
+            const item = appState.schedule.find(s => s.id === id);
+            if (!item) return;
+
+            document.getElementById("schedule-modal-title").textContent = "Editar horario";
+            document.getElementById("sched-id").value = item.id;
+            document.getElementById("sched-time-24").value = item.time24;
+            document.getElementById("sched-category").value = item.category;
+            document.getElementById("sched-title").value = item.title;
+            document.getElementById("sched-desc").value = item.description;
+            document.querySelector(`input[name="sched-status"][value="${item.confirmed ? "confirmed" : "pending"}"]`).checked = true;
+            document.getElementById("sched-pending-note").value = item.pendingNote || "";
+            toggleSchedPendingField();
+
+            const modal = document.getElementById("schedule-modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        }
+
+        function closeScheduleModal() {
+            const modal = document.getElementById("schedule-modal");
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+        }
+
+        async function handleScheduleSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById("sched-id").value;
+            const time24 = document.getElementById("sched-time-24").value;
+            const category = document.getElementById("sched-category").value;
+            const title = document.getElementById("sched-title").value.trim();
+            const description = document.getElementById("sched-desc").value.trim();
+            const isConfirmed = document.querySelector('input[name="sched-status"]:checked').value === "confirmed";
+            const pendingNote = isConfirmed ? "" : document.getElementById("sched-pending-note").value.trim();
+
+            if (!time24 || !title || !description) return;
+
+            if (id) {
+                const idx = appState.schedule.findIndex(s => s.id === id);
+                if (idx !== -1) {
+                    appState.schedule[idx] = {
+                        ...appState.schedule[idx],
+                        time24,
+                        category,
+                        title,
+                        description,
+                        confirmed: isConfirmed,
+                        pendingNote
+                    };
+                }
+            } else {
+                appState.schedule.push({
+                    id: "sched-" + Date.now(),
+                    time24,
+                    category,
+                    title,
+                    description,
+                    confirmed: isConfirmed,
+                    pendingNote
+                });
+            }
+
+            closeScheduleModal();
+            await pushToGoogleSheets(true);
+        }
+
+        // =====================================================================
+        // MODAL 2: EDIT GENERAL INFO & CEREMONY ROLES
+        // =====================================================================
+        function openCardEditModal(type, id) {
+            const list = appState[type];
+            const item = list.find(x => x.id === id);
+            if (!item) return;
+
+            document.getElementById("card-edit-type").value = type;
+            document.getElementById("card-edit-id").value = id;
+            document.getElementById("card-modal-subtitle").textContent = type === "generalInfo" ? "Información General" : "Ceremonia y Roles";
+            document.getElementById("card-modal-title").textContent = type === "generalInfo" ? item.label : item.title;
+            document.getElementById("card-edit-value").value = item.value;
+
+            const mapsWrapper = document.getElementById("card-edit-maps-wrapper");
+            const mapsInput = document.getElementById("card-edit-maps");
+            if (id === "info-venue") {
+                mapsWrapper.classList.remove("hidden");
+                mapsInput.value = item.mapsUrl || "";
+            } else {
+                mapsWrapper.classList.add("hidden");
+                mapsInput.value = "";
+            }
+
+            document.querySelector(`input[name="card-status"][value="${item.confirmed ? "confirmed" : "pending"}"]`).checked = true;
+
+            const modal = document.getElementById("card-edit-modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        }
+
+        function closeCardEditModal() {
+            const modal = document.getElementById("card-edit-modal");
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+        }
+
+        async function handleCardEditSubmit(e) {
+            e.preventDefault();
+            const type = document.getElementById("card-edit-type").value;
+            const id = document.getElementById("card-edit-id").value;
+            const value = document.getElementById("card-edit-value").value.trim();
+            const isConfirmed = document.querySelector('input[name="card-status"]:checked').value === "confirmed";
+
+            const list = appState[type];
+            const idx = list.findIndex(x => x.id === id);
+            if (idx !== -1) {
+                list[idx].value = value;
+                list[idx].confirmed = isConfirmed;
+                if (id === "info-venue") {
+                    list[idx].mapsUrl = document.getElementById("card-edit-maps").value.trim();
+                }
+            }
+
+            closeCardEditModal();
+            await pushToGoogleSheets(true);
+        }
+
+        // =====================================================================
+        // MODAL 3: DELETE SCHEDULE ITEM
+        // =====================================================================
+        function openDeleteModal(id) {
+            const item = appState.schedule.find(s => s.id === id);
+            if (!item) return;
+            pendingDeleteId = id;
+            document.getElementById("delete-modal-desc").textContent =
+                `Se eliminará "${formatTime12h(item.time24)} — ${item.title}" del cronograma para todos.`;
+
+            const modal = document.getElementById("delete-modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        }
+
+        function closeDeleteModal() {
+            pendingDeleteId = null;
+            const modal = document.getElementById("delete-modal");
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+        }
+
+        async function confirmDeleteSchedule() {
+            if (!pendingDeleteId) return;
+            appState.schedule = appState.schedule.filter(s => s.id !== pendingDeleteId);
+            closeDeleteModal();
+            await pushToGoogleSheets(true);
+        }
+
+        // =====================================================================
+        // COPY TO WHATSAPP & TOAST HELPER
+        // =====================================================================
+        function copyWhatsAppSummary() {
+            let text = `*💍 BODA MARTÍN & EDNA — LOGÍSTICA Y CRONOGRAMA*\n\n`;
+            appState.generalInfo.forEach(info => {
+                const mark = info.confirmed ? "✅" : "⚠️";
+                text += `${mark} *${info.label}:* ${info.value}\n`;
+            });
+
+            text += `\n*🕒 CRONOGRAMA DEL DÍA*\n`;
+            appState.schedule.forEach(item => {
+                const status = item.confirmed ? "" : ` _(⚠️ Por confirmar: ${item.pendingNote})_`;
+                text += `• *${formatTime12h(item.time24)}* — ${item.title}${status}\n`;
+            });
+
+            text += `\n*⛪ CEREMONIA Y ROLES*\n`;
+            appState.ceremonyRoles.forEach(role => {
+                const mark = role.confirmed ? "✅" : "⚠️";
+                text += `${mark} *${role.title}:* ${role.value}\n`;
+            });
+
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            textarea.style.position = "fixed";
+            textarea.style.opacity = "0";
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand("copy");
+                showToast("Itinerario copiado listo para WhatsApp");
+            } catch (err) {
+                showToast("No se pudo copiar automáticamente");
+            }
+            document.body.removeChild(textarea);
+        }
+
+        let toastTimer = null;
+        function showToast(msg) {
+            const container = document.getElementById("toast-container");
+            const label = document.getElementById("toast-text");
+            if (!container || !label) return;
+            label.textContent = msg;
+            container.classList.remove("opacity-0", "translate-y-3");
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                container.classList.add("opacity-0", "translate-y-3");
+            }, 2800);
+        }
+
+        // =====================================================================
+        // INITIALIZE APP
+        // =====================================================================
+        loadFromLocalStorage();
+        sortScheduleChronologically();
+        renderAll();
+        fetchFromGoogleSheets(false);
+    </script>
+</body>
+</html>
