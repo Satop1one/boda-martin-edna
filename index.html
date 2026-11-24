@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,6 +60,9 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+        section[id] {
+            scroll-margin-top: 76px;
+        }
         @media print {
             .no-print {
                 display: none !important;
@@ -80,13 +83,60 @@
         </div>
     </div>
 
+    <!-- Sticky Navigation & Quick Collapse Top Bar -->
+    <nav aria-label="Navegación rápida de secciones" class="no-print sticky top-0 z-40 bg-cream/95 backdrop-blur-md border-b border-honey/25 shadow-2xs">
+        <div class="max-w-5xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-2">
+            <!-- Mobile Hamburger + Scrollable Quick Pills -->
+            <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar flex-1">
+                <button type="button" onclick="toggleMobileDrawer()" aria-label="Abrir índice de secciones" class="sm:hidden shrink-0 p-2 rounded-full bg-sand text-espresso border border-honey/30 active:scale-95 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+                <a href="#sec-info" onclick="ensureSectionOpen('sec-info')" class="px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap bg-white hover:bg-honey-light text-espresso border border-stone-200/90 transition">
+                    1. Info General
+                </a>
+                <a href="#sec-schedule" onclick="ensureSectionOpen('sec-schedule')" class="px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap bg-white hover:bg-honey-light text-espresso border border-stone-200/90 transition">
+                    2. Cronograma
+                </a>
+                <a href="#sec-ceremony" onclick="ensureSectionOpen('sec-ceremony')" class="px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap bg-white hover:bg-honey-light text-espresso border border-stone-200/90 transition">
+                    3. Ceremonia
+                </a>
+                <a href="#sec-pending" onclick="ensureSectionOpen('sec-pending')" class="px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300/80 transition">
+                    4. Pendientes <span id="nav-pending-count" class="ml-0.5 font-bold">0</span>
+                </a>
+                <a href="#sec-tables" onclick="ensureSectionOpen('sec-tables')" class="px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap bg-white hover:bg-honey-light text-espresso border border-stone-200/90 transition">
+                    5. Invitados y Mesas
+                </a>
+            </div>
+
+            <!-- Global Collapse / Expand Button -->
+            <button type="button" id="btn-toggle-all" onclick="toggleAllSections()" class="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-espresso text-cream hover:bg-stone-800 shadow-2xs transition active:scale-95">
+                <svg id="icon-toggle-all" class="w-3.5 h-3.5 text-honey-warm transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"/>
+                </svg>
+                <span id="label-toggle-all">Expandir todo</span>
+            </button>
+        </div>
+
+        <!-- Mobile Hamburger Expanded Index -->
+        <div id="mobile-nav-drawer" class="hidden sm:hidden border-t border-honey/20 bg-sand/90 px-4 py-3 space-y-1.5">
+            <p class="text-[10px] font-bold uppercase tracking-wider text-honey-dark mb-1">Saltar a sección</p>
+            <a href="#sec-info" onclick="jumpToSection('sec-info')" class="block py-1.5 px-3 rounded-xl bg-white text-xs font-semibold text-espresso">1. Información General del Evento</a>
+            <a href="#sec-schedule" onclick="jumpToSection('sec-schedule')" class="block py-1.5 px-3 rounded-xl bg-white text-xs font-semibold text-espresso">2. Cronograma del Día</a>
+            <a href="#sec-ceremony" onclick="jumpToSection('sec-ceremony')" class="block py-1.5 px-3 rounded-xl bg-white text-xs font-semibold text-espresso">3. Ceremonia — Roles y Elementos</a>
+            <a href="#sec-pending" onclick="jumpToSection('sec-pending')" class="block py-1.5 px-3 rounded-xl bg-amber-50 text-xs font-semibold text-amber-950">4. Resumen de Puntos por Confirmar</a>
+            <a href="#sec-tables" onclick="jumpToSection('sec-tables')" class="block py-1.5 px-3 rounded-xl bg-white text-xs font-semibold text-espresso">5. Invitados y Mesas</a>
+        </div>
+    </nav>
+
     <!-- Header Section -->
-    <header class="bg-gradient-to-b from-honey-light/90 via-cream to-cream border-b border-honey/20 pt-6 pb-6 px-4 sm:px-6 lg:px-8">
+    <header class="bg-gradient-to-b from-honey-light/90 via-cream to-cream border-b border-honey/20 pt-5 pb-6 px-4 sm:px-6 lg:px-8">
         <div class="max-w-5xl mx-auto">
             <!-- Top Status & Sync Pill Bar -->
             <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
                 <span class="inline-flex items-center gap-1.5 text-xs font-semibold tracking-wider uppercase text-honey-dark bg-honey-light px-3 py-1 rounded-full border border-honey/25">
-                    <span>✦</span> Celebración Íntima · 30 Invitados
+                    <span>✦</span> Celebración Íntima · 36 Invitados
                 </span>
 
                 <div class="flex items-center gap-2">
@@ -94,7 +144,7 @@
                         <span id="sync-dot" class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
                         <span id="sync-text">Conectando...</span>
                     </span>
-                    <button onclick="manualSync()" title="Actualizar desde Google Sheets" class="no-print inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white hover:bg-sand text-espresso border border-stone-300/80 shadow-xs transition active:scale-95">
+                    <button type="button" onclick="manualSync()" title="Actualizar desde Google Sheets" class="no-print inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white hover:bg-sand text-espresso border border-stone-300/80 shadow-xs transition active:scale-95">
                         <svg id="sync-icon" class="w-3.5 h-3.5 text-honey-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                         </svg>
@@ -110,12 +160,12 @@
                         Boda Martín &amp; Edna
                     </h1>
                     <p class="text-sm sm:text-base text-stone-600 mt-1">
-                        Logística general, roles de ceremonia y cronograma en tiempo real
+                        Logística general, roles de ceremonia, cronograma y mesas en tiempo real
                     </p>
                 </div>
 
                 <div class="no-print flex flex-wrap items-center gap-2.5">
-                    <button onclick="copyWhatsAppSummary()" class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-white hover:bg-sand text-espresso border border-honey/40 shadow-xs transition active:scale-95">
+                    <button type="button" onclick="copyWhatsAppSummary()" class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-white hover:bg-sand text-espresso border border-honey/40 shadow-xs transition active:scale-95">
                         <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
                         </svg>
@@ -126,139 +176,241 @@
         </div>
     </header>
 
+    <!-- Datalist global con responsables existentes (y entrada libre) -->
+    <datalist id="responsibles-datalist"></datalist>
+
     <!-- Main Content Container -->
-    <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10">
+    <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-8">
 
-        <!-- SECTION 1: General Event Info Cards -->
-        <section aria-labelledby="info-heading">
-            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-4">
-                <div>
-                    <h2 id="info-heading" class="font-editorial text-2xl sm:text-3xl font-bold text-espresso">
-                        Información General del Evento
-                    </h2>
-                    <p class="text-xs text-stone-500">Haz clic en "Editar / Confirmar" en cualquier tarjeta o agrega nuevos datos del evento.</p>
-                </div>
-
-                <div class="no-print">
-                    <button onclick="openAddCardModal('generalInfo')" class="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold bg-honey hover:bg-honey-dark text-white shadow-xs transition active:scale-95">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 4v16m8-8H4"/>
+        <!-- =================================================================== -->
+        <!-- SECTION 1: General Event Info with Dynamic Reorderable Subgroups    -->
+        <!-- =================================================================== -->
+        <section id="sec-info" aria-labelledby="info-heading" class="rounded-3xl bg-white/60 border border-honey/20 p-4 sm:p-6 shadow-2xs">
+            <div class="flex items-start justify-between gap-3">
+                <button type="button" onclick="toggleMainSection('sec-info')" class="flex items-center gap-2.5 text-left group flex-1 min-w-0">
+                    <span id="chevron-sec-info" class="w-7 h-7 rounded-full bg-honey-light text-honey-dark flex items-center justify-center shrink-0 transition-transform duration-200">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 9l-7 7-7-7"/>
                         </svg>
-                        <span>Agregar dato</span>
-                    </button>
-                </div>
+                    </span>
+                    <div class="min-w-0">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <h2 id="info-heading" class="font-editorial text-2xl sm:text-3xl font-bold text-espresso group-hover:text-honey-dark transition">
+                                Información General del Evento
+                            </h2>
+                            <span id="count-sec-info" class="px-2.5 py-0.5 rounded-full bg-sand text-stone-700 text-xs font-bold">0 datos</span>
+                        </div>
+                        <p class="text-xs text-stone-500 truncate sm:whitespace-normal">Organizado por subgrupos editables, con responsables, links y fotos de referencia.</p>
+                    </div>
+                </button>
             </div>
 
-            <div id="general-info-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
-                <!-- Populated dynamically via JS -->
+            <div id="body-sec-info" class="mt-5 space-y-5">
+                <!-- Action Toolbar -->
+                <div class="no-print flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-stone-200/80">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button type="button" onclick="openAddCardModal('generalInfo')" class="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold bg-honey hover:bg-honey-dark text-white shadow-xs transition active:scale-95">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 4v16m8-8H4"/>
+                            </svg>
+                            <span>Agregar dato</span>
+                        </button>
+                        <button type="button" onclick="openAddSubgroupModal()" class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold bg-white hover:bg-sand text-espresso border border-honey/40 shadow-2xs transition active:scale-95">
+                            <svg class="w-3.5 h-3.5 text-honey-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+                            </svg>
+                            <span>+ Nuevo subgrupo</span>
+                        </button>
+                    </div>
+                    <button type="button" onclick="toggleAllSubgroups()" class="text-xs font-semibold text-honey-dark hover:text-espresso px-2.5 py-1 rounded-full hover:bg-honey-light transition">
+                        Plegar / desplegar subgrupos
+                    </button>
+                </div>
+
+                <!-- Subgroups Container -->
+                <div id="general-info-subgroups" class="space-y-4">
+                    <!-- Populated dynamically via JS -->
+                </div>
             </div>
         </section>
 
-        <!-- Visual Section Divider -->
-        <div class="border-t border-honey/25"></div>
+        <!-- =================================================================== -->
+        <!-- SECTION 2: Interactive Schedule (Cronograma)                        -->
+        <!-- =================================================================== -->
+        <section id="sec-schedule" aria-labelledby="schedule-heading" class="rounded-3xl bg-white/60 border border-honey/20 p-4 sm:p-6 shadow-2xs">
+            <div class="flex items-start justify-between gap-3">
+                <button type="button" onclick="toggleMainSection('sec-schedule')" class="flex items-center gap-2.5 text-left group flex-1 min-w-0">
+                    <span id="chevron-sec-schedule" class="w-7 h-7 rounded-full bg-honey-light text-honey-dark flex items-center justify-center shrink-0 transition-transform duration-200">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </span>
+                    <div class="min-w-0">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <h2 id="schedule-heading" class="font-editorial text-2xl sm:text-3xl font-bold text-espresso group-hover:text-honey-dark transition">
+                                Cronograma del Día
+                            </h2>
+                            <span id="count-sec-schedule" class="px-2.5 py-0.5 rounded-full bg-sand text-stone-700 text-xs font-bold">0 horarios</span>
+                        </div>
+                        <p class="text-xs text-stone-500">Ordenado automáticamente por hora · Con responsables opcionales, links y fotos</p>
+                    </div>
+                </button>
+            </div>
 
-        <!-- SECTION 2: Interactive Schedule (Cronograma) -->
-        <section aria-labelledby="schedule-heading">
-            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-4">
-                <div>
-                    <h2 id="schedule-heading" class="font-editorial text-2xl sm:text-3xl font-bold text-espresso">
-                        Cronograma del Día
-                    </h2>
-                    <p class="text-xs text-stone-500">Ordenado automáticamente por hora · Sincronizado para todos los invitados</p>
-                </div>
-
+            <div id="body-sec-schedule" class="mt-5">
                 <!-- Pending Filter Toggle + Add Schedule Button -->
-                <div class="no-print flex flex-wrap items-center gap-2">
-                    <button id="btn-only-pending" onclick="toggleOnlyPending()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold border border-amber-300 bg-amber-50/70 text-amber-800 hover:bg-amber-100 transition">
+                <div class="no-print flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-stone-200/80">
+                    <button type="button" id="btn-only-pending" onclick="toggleOnlyPending()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold border border-amber-300 bg-amber-50/70 text-amber-800 hover:bg-amber-100 transition">
                         <span id="pending-filter-dot" class="w-2 h-2 rounded-full bg-amber-500"></span>
                         <span>Solo pendientes</span>
                         <span id="pending-count-pill" class="ml-0.5 px-1.5 py-0.2 rounded-full bg-amber-200/80 text-amber-900 text-[10px] font-bold">0</span>
                     </button>
 
-                    <button onclick="openAddScheduleModal()" class="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold bg-honey hover:bg-honey-dark text-white shadow-xs transition active:scale-95">
+                    <button type="button" onclick="openAddScheduleModal()" class="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold bg-honey hover:bg-honey-dark text-white shadow-xs transition active:scale-95">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 4v16m8-8H4"/>
                         </svg>
                         <span>Agregar horario</span>
                     </button>
                 </div>
-            </div>
 
-            <!-- Category Filter Tabs -->
-            <div class="no-print flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 mb-4" id="category-tabs">
-                <button data-cat="all" onclick="setCategoryFilter('all')" class="cat-tab active px-3.5 py-2 rounded-full text-xs font-semibold whitespace-nowrap bg-espresso text-cream shadow-xs transition">
-                    Todo el día
-                </button>
-                <button data-cat="Preparación" onclick="setCategoryFilter('Preparación')" class="cat-tab px-3.5 py-2 rounded-full text-xs font-semibold whitespace-nowrap bg-white text-stone-700 border border-stone-200 hover:bg-sand transition">
-                    Preparación
-                </button>
-                <button data-cat="Ceremonia" onclick="setCategoryFilter('Ceremonia')" class="cat-tab px-3.5 py-2 rounded-full text-xs font-semibold whitespace-nowrap bg-white text-stone-700 border border-stone-200 hover:bg-sand transition">
-                    Ceremonia
-                </button>
-                <button data-cat="Recepción y Cena" onclick="setCategoryFilter('Recepción y Cena')" class="cat-tab px-3.5 py-2 rounded-full text-xs font-semibold whitespace-nowrap bg-white text-stone-700 border border-stone-200 hover:bg-sand transition">
-                    Recepción y Cena
-                </button>
-                <button data-cat="Cierre" onclick="setCategoryFilter('Cierre')" class="cat-tab px-3.5 py-2 rounded-full text-xs font-semibold whitespace-nowrap bg-white text-stone-700 border border-stone-200 hover:bg-sand transition">
-                    Cierre
-                </button>
-            </div>
+                <!-- Category Filter Tabs -->
+                <div class="no-print flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 mb-4" id="category-tabs">
+                    <button type="button" data-cat="all" onclick="setCategoryFilter('all')" class="cat-tab active px-3.5 py-2 rounded-full text-xs font-semibold whitespace-nowrap bg-espresso text-cream shadow-xs transition">
+                        Todo el día
+                    </button>
+                    <button type="button" data-cat="Preparación" onclick="setCategoryFilter('Preparación')" class="cat-tab px-3.5 py-2 rounded-full text-xs font-semibold whitespace-nowrap bg-white text-stone-700 border border-stone-200 hover:bg-sand transition">
+                        Preparación
+                    </button>
+                    <button type="button" data-cat="Ceremonia" onclick="setCategoryFilter('Ceremonia')" class="cat-tab px-3.5 py-2 rounded-full text-xs font-semibold whitespace-nowrap bg-white text-stone-700 border border-stone-200 hover:bg-sand transition">
+                        Ceremonia
+                    </button>
+                    <button type="button" data-cat="Recepción y Cena" onclick="setCategoryFilter('Recepción y Cena')" class="cat-tab px-3.5 py-2 rounded-full text-xs font-semibold whitespace-nowrap bg-white text-stone-700 border border-stone-200 hover:bg-sand transition">
+                        Recepción y Cena
+                    </button>
+                    <button type="button" data-cat="Cierre" onclick="setCategoryFilter('Cierre')" class="cat-tab px-3.5 py-2 rounded-full text-xs font-semibold whitespace-nowrap bg-white text-stone-700 border border-stone-200 hover:bg-sand transition">
+                        Cierre
+                    </button>
+                </div>
 
-            <!-- Timeline List -->
-            <div id="schedule-list" class="space-y-3.5">
-                <!-- Populated dynamically via JS -->
+                <!-- Timeline List -->
+                <div id="schedule-list" class="space-y-3.5">
+                    <!-- Populated dynamically via JS -->
+                </div>
             </div>
         </section>
 
-        <!-- Visual Section Divider -->
-        <div class="border-t border-honey/25"></div>
+        <!-- =================================================================== -->
+        <!-- SECTION 3: Ceremony Roles & Elements                                -->
+        <!-- =================================================================== -->
+        <section id="sec-ceremony" aria-labelledby="ceremony-heading" class="rounded-3xl bg-white/60 border border-honey/20 p-4 sm:p-6 shadow-2xs">
+            <div class="flex items-start justify-between gap-3">
+                <button type="button" onclick="toggleMainSection('sec-ceremony')" class="flex items-center gap-2.5 text-left group flex-1 min-w-0">
+                    <span id="chevron-sec-ceremony" class="w-7 h-7 rounded-full bg-honey-light text-honey-dark flex items-center justify-center shrink-0 transition-transform duration-200">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </span>
+                    <div class="min-w-0">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-honey-dark block">Organización Litúrgica y Protocolo</span>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <h2 id="ceremony-heading" class="font-editorial text-2xl sm:text-3xl font-bold text-espresso group-hover:text-honey-dark transition">
+                                Ceremonia — Roles y Elementos
+                            </h2>
+                            <span id="count-sec-ceremony" class="px-2.5 py-0.5 rounded-full bg-sand text-stone-700 text-xs font-bold">0 roles</span>
+                        </div>
+                    </div>
+                </button>
+            </div>
 
-        <!-- SECTION 3: Ceremony Roles & Elements -->
-        <section aria-labelledby="ceremony-heading">
-            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-4">
-                <div>
-                    <span class="text-[11px] font-bold uppercase tracking-wider text-honey-dark">Organización Litúrgica y Protocolo</span>
-                    <h2 id="ceremony-heading" class="font-editorial text-2xl sm:text-3xl font-bold text-espresso">
-                        Ceremonia — Roles y Elementos
-                    </h2>
-                    <p class="text-xs text-stone-500">Responsables de cada momento y elemento para las 5:30 PM.</p>
-                </div>
-
-                <div class="no-print">
-                    <button onclick="openAddCardModal('ceremonyRoles')" class="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold bg-honey hover:bg-honey-dark text-white shadow-xs transition active:scale-95">
+            <div id="body-sec-ceremony" class="mt-5">
+                <div class="no-print flex items-center justify-between gap-2 pb-3 mb-4 border-b border-stone-200/80">
+                    <p class="text-xs text-stone-500">Responsables y elementos para las 5:30 PM.</p>
+                    <button type="button" onclick="openAddCardModal('ceremonyRoles')" class="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold bg-honey hover:bg-honey-dark text-white shadow-xs transition active:scale-95 shrink-0">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 4v16m8-8H4"/>
                         </svg>
                         <span>Agregar rol / elemento</span>
                     </button>
                 </div>
-            </div>
 
-            <div id="ceremony-roles-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
-                <!-- Populated dynamically via JS -->
+                <div id="ceremony-roles-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
+                    <!-- Populated dynamically via JS -->
+                </div>
             </div>
         </section>
 
-        <!-- SECTION 4: Dynamic Pending Summary Card -->
-        <section id="pending-summary-section" aria-labelledby="pending-heading" class="pt-2">
-            <div class="rounded-3xl bg-amber-50 border-2 border-amber-300/80 p-5 sm:p-6 shadow-xs">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-amber-200/80">
-                    <div class="flex items-center gap-2.5">
-                        <span class="w-8 h-8 rounded-full bg-amber-200/80 text-amber-900 flex items-center justify-center font-bold text-sm shrink-0">!</span>
-                        <div>
+        <!-- =================================================================== -->
+        <!-- SECTION 4: Dynamic Pending Summary Card                             -->
+        <!-- =================================================================== -->
+        <section id="sec-pending" aria-labelledby="pending-heading">
+            <div class="rounded-3xl bg-amber-50 border-2 border-amber-300/80 p-4 sm:p-6 shadow-xs">
+                <div class="flex items-center justify-between gap-2">
+                    <button type="button" onclick="toggleMainSection('sec-pending')" class="flex items-center gap-2.5 text-left flex-1 min-w-0">
+                        <span id="chevron-sec-pending" class="w-7 h-7 rounded-full bg-amber-200/90 text-amber-950 flex items-center justify-center shrink-0 transition-transform duration-200">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </span>
+                        <div class="min-w-0">
                             <h2 id="pending-heading" class="font-editorial text-2xl font-bold text-amber-950">
                                 Resumen de Puntos por Confirmar
                             </h2>
-                            <p class="text-xs text-amber-800">Esta lista se actualiza automáticamente cuando confirmas, agregas o eliminas elementos.</p>
+                            <p class="text-xs text-amber-800">Actualizado automáticamente al confirmar o editar cualquier sección.</p>
                         </div>
-                    </div>
-                    <span id="total-pending-badge" class="self-start sm:self-center px-3 py-1 rounded-full bg-amber-200 text-amber-950 text-xs font-bold">
+                    </button>
+                    <span id="total-pending-badge" class="shrink-0 px-3 py-1 rounded-full bg-amber-200 text-amber-950 text-xs font-bold">
                         0 pendientes
                     </span>
                 </div>
 
-                <ul id="pending-summary-list" class="mt-4 space-y-2.5 text-xs sm:text-sm text-amber-950">
+                <div id="body-sec-pending" class="mt-4 pt-3 border-t border-amber-200/80">
+                    <ul id="pending-summary-list" class="space-y-2.5 text-xs sm:text-sm text-amber-950">
+                        <!-- Populated dynamically via JS -->
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- SECTION 5 (NEW): Guests & Round Tables Distribution                 -->
+        <!-- =================================================================== -->
+        <section id="sec-tables" aria-labelledby="tables-heading" class="rounded-3xl bg-white/75 border border-honey/25 p-4 sm:p-6 shadow-2xs">
+            <div class="flex items-start justify-between gap-3">
+                <button type="button" onclick="toggleMainSection('sec-tables')" class="flex items-center gap-2.5 text-left group flex-1 min-w-0">
+                    <span id="chevron-sec-tables" class="w-7 h-7 rounded-full bg-honey-light text-honey-dark flex items-center justify-center shrink-0 transition-transform duration-200">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </span>
+                    <div class="min-w-0">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-honey-dark block">Distribución de Salón San Antonio</span>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <h2 id="tables-heading" class="font-editorial text-2xl sm:text-3xl font-bold text-espresso group-hover:text-honey-dark transition">
+                                Invitados y Mesas
+                            </h2>
+                            <span id="tables-summary-pill" class="px-2.5 py-0.5 rounded-full bg-honey-light text-honey-dark border border-honey/25 text-xs font-bold">
+                                0 mesas · 0 invitados asignados de 36
+                            </span>
+                        </div>
+                    </div>
+                </button>
+            </div>
+
+            <div id="body-sec-tables" class="mt-5">
+                <div class="no-print flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-stone-200/80">
+                    <p class="text-xs text-stone-500">Crea mesas redondas, agrega invitados por nombre y muévelos entre mesas cuando lo necesites.</p>
+                    <button type="button" onclick="openAddTableModal()" class="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold bg-honey hover:bg-honey-dark text-white shadow-xs transition active:scale-95 shrink-0">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        <span>+ Agregar mesa</span>
+                    </button>
+                </div>
+
+                <div id="tables-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- Populated dynamically via JS -->
-                </ul>
+                </div>
             </div>
         </section>
 
@@ -267,14 +419,14 @@
     <!-- Footer -->
     <footer class="border-t border-honey/20 bg-sand/50 py-6 px-4 text-center text-xs text-stone-500">
         <p class="font-editorial text-base text-espresso font-semibold">Martín &amp; Edna · 22 de Diciembre de 2026</p>
-        <p class="mt-1">Documento colaborativo sincronizado en tiempo real con Google Sheets</p>
+        <p class="mt-1">Panel logístico colaborativo sincronizado en tiempo real con Google Sheets</p>
     </footer>
 
     <!-- ===================================================================== -->
     <!-- MODAL 1: ADD / EDIT SCHEDULE ITEM                                     -->
     <!-- ===================================================================== -->
     <div id="schedule-modal" class="no-print fixed inset-0 z-50 hidden items-center justify-center bg-espresso/50 backdrop-blur-xs p-4 overflow-y-auto">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-honey/30 my-auto">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-honey/30 my-auto max-h-[92vh] overflow-y-auto">
             <div class="flex items-start justify-between gap-3">
                 <div>
                     <span class="text-[11px] font-bold uppercase tracking-wider text-honey-dark">Cronograma del Evento</span>
@@ -282,7 +434,7 @@
                         Agregar horario
                     </h3>
                 </div>
-                <button onclick="closeScheduleModal()" class="p-2 rounded-full text-stone-400 hover:text-espresso hover:bg-stone-100 transition">
+                <button type="button" onclick="closeScheduleModal()" class="p-2 rounded-full text-stone-400 hover:text-espresso hover:bg-stone-100 transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
@@ -321,10 +473,36 @@
                 </div>
 
                 <div>
+                    <label for="sched-responsible" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1">
+                        Responsable / Encargado (opcional)
+                    </label>
+                    <input type="text" id="sched-responsible" list="responsibles-datalist" placeholder="Selecciona o escribe un nombre nuevo (ej. Santiago Piñón, DJ...)" class="w-full rounded-2xl border border-stone-300 px-3.5 py-2.5 text-sm text-espresso focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20">
+                </div>
+
+                <div>
                     <label for="sched-desc" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1">
                         Descripción y detalles *
                     </label>
                     <textarea id="sched-desc" rows="3" required placeholder="Explica qué sucede, quién participa o indicaciones para el DJ..." class="w-full rounded-2xl border border-stone-300 px-3.5 py-2.5 text-sm text-espresso focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20"></textarea>
+                </div>
+
+                <div>
+                    <label for="sched-link" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1">
+                        Link / URL de apoyo (opcional)
+                    </label>
+                    <input type="url" id="sched-link" placeholder="https://open.spotify.com/... o https://youtu.be/..." class="w-full rounded-2xl border border-stone-300 px-3.5 py-2 text-xs text-espresso focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20">
+                </div>
+
+                <!-- Fotos de referencia en horario -->
+                <div class="p-3 rounded-2xl bg-sand/50 border border-stone-200/80 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold uppercase tracking-wider text-stone-600">📷 Fotos de referencia (opcional)</span>
+                        <label class="cursor-pointer inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-white border border-honey/40 text-honey-dark hover:bg-honey-light transition">
+                            <span>+ Subir foto</span>
+                            <input type="file" accept="image/*" multiple onchange="handleModalPhotoUpload(event, 'sched')" class="hidden">
+                        </label>
+                    </div>
+                    <div id="sched-photos-preview" class="flex flex-wrap gap-2"></div>
                 </div>
 
                 <div class="p-3.5 rounded-2xl bg-sand/70 border border-stone-200/80 space-y-3">
@@ -368,7 +546,7 @@
     <!-- MODAL 2: ADD / EDIT GENERAL INFO OR CEREMONY ROLE                     -->
     <!-- ===================================================================== -->
     <div id="card-edit-modal" class="no-print fixed inset-0 z-50 hidden items-center justify-center bg-espresso/50 backdrop-blur-xs p-4 overflow-y-auto">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-honey/30 my-auto">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-honey/30 my-auto max-h-[92vh] overflow-y-auto">
             <div class="flex items-start justify-between gap-3">
                 <div>
                     <span id="card-modal-subtitle" class="text-[11px] font-bold uppercase tracking-wider text-honey-dark">Actualizar información</span>
@@ -376,7 +554,7 @@
                         Editar elemento
                     </h3>
                 </div>
-                <button onclick="closeCardEditModal()" class="p-2 rounded-full text-stone-400 hover:text-espresso hover:bg-stone-100 transition">
+                <button type="button" onclick="closeCardEditModal()" class="p-2 rounded-full text-stone-400 hover:text-espresso hover:bg-stone-100 transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
@@ -387,7 +565,14 @@
                 <input type="hidden" id="card-edit-type">
                 <input type="hidden" id="card-edit-id">
 
-                <!-- Title / Label (editable when adding new or editing custom cards) -->
+                <!-- Subgroup selector (shown only for generalInfo) -->
+                <div id="card-edit-subgroup-wrapper">
+                    <label for="card-edit-subgroup" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1">
+                        Subgrupo dentro de Información General *
+                    </label>
+                    <select id="card-edit-subgroup" class="w-full rounded-2xl border border-stone-300 px-3.5 py-2.5 text-sm text-espresso bg-white focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20"></select>
+                </div>
+
                 <div>
                     <label id="card-edit-name-label" for="card-edit-name" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1">
                         Título / Concepto *
@@ -397,9 +582,23 @@
 
                 <div>
                     <label for="card-edit-value" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1">
-                        Detalle / Responsable confirmado *
+                        Detalle / Información *
                     </label>
-                    <textarea id="card-edit-value" rows="3" required placeholder="Escribe aquí la información o persona encargada..." class="w-full rounded-2xl border border-stone-300 px-3.5 py-2.5 text-sm text-espresso focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20"></textarea>
+                    <textarea id="card-edit-value" rows="3" required placeholder="Escribe aquí la información, teléfono, costo o detalles..." class="w-full rounded-2xl border border-stone-300 px-3.5 py-2.5 text-sm text-espresso focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20"></textarea>
+                </div>
+
+                <div>
+                    <label for="card-edit-responsible" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1">
+                        Encargado / Responsable (opcional)
+                    </label>
+                    <input type="text" id="card-edit-responsible" list="responsibles-datalist" placeholder="Selecciona o escribe un encargado nuevo (ej. Sara, Sahian, Santiago...)" class="w-full rounded-2xl border border-stone-300 px-3.5 py-2.5 text-sm text-espresso focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20">
+                </div>
+
+                <div>
+                    <label for="card-edit-link" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1">
+                        Link / URL (playlist, cotización, referencia — opcional)
+                    </label>
+                    <input type="url" id="card-edit-link" placeholder="https://open.spotify.com/... o https://drive.google.com/..." class="w-full rounded-2xl border border-stone-300 px-3.5 py-2 text-xs text-espresso focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20">
                 </div>
 
                 <!-- Optional Google Maps Link (shown only for Lugar / Sede) -->
@@ -408,6 +607,19 @@
                         Enlace de Google Maps (opcional)
                     </label>
                     <input type="url" id="card-edit-maps" placeholder="https://maps.app.goo.gl/..." class="w-full rounded-2xl border border-stone-300 px-3.5 py-2 text-xs text-espresso focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20">
+                </div>
+
+                <!-- Fotos de referencia en tarjeta -->
+                <div class="p-3 rounded-2xl bg-sand/50 border border-stone-200/80 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold uppercase tracking-wider text-stone-600">📷 Fotos de referencia (opcional)</span>
+                        <label class="cursor-pointer inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-white border border-honey/40 text-honey-dark hover:bg-honey-light transition">
+                            <span>+ Subir foto</span>
+                            <input type="file" accept="image/*" multiple onchange="handleModalPhotoUpload(event, 'card')" class="hidden">
+                        </label>
+                    </div>
+                    <p class="text-[11px] text-stone-500">Se optimizan automáticamente para que carguen rápido en todos los celulares.</p>
+                    <div id="card-photos-preview" class="flex flex-wrap gap-2"></div>
                 </div>
 
                 <div class="p-3.5 rounded-2xl bg-sand/70 border border-stone-200/80 space-y-2">
@@ -441,7 +653,102 @@
     </div>
 
     <!-- ===================================================================== -->
-    <!-- MODAL 3: DELETE CONFIRMATION (Schedule, General Info or Ceremony Role)-->
+    <!-- MODAL 3: ADD / RENAME SUBGROUP                                        -->
+    <!-- ===================================================================== -->
+    <div id="subgroup-modal" class="no-print fixed inset-0 z-50 hidden items-center justify-center bg-espresso/50 backdrop-blur-xs p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-honey/30">
+            <div class="flex items-start justify-between gap-3">
+                <div>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-honey-dark">Información General</span>
+                    <h3 id="subgroup-modal-title" class="font-editorial text-2xl font-bold text-espresso mt-0.5">
+                        Nuevo subgrupo
+                    </h3>
+                </div>
+                <button type="button" onclick="closeSubgroupModal()" class="p-2 rounded-full text-stone-400 hover:text-espresso hover:bg-stone-100 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <form onsubmit="handleSubgroupSubmit(event)" class="mt-4 space-y-4">
+                <input type="hidden" id="subgroup-edit-id">
+                <div>
+                    <label for="subgroup-name-input" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1">
+                        Nombre del subgrupo *
+                    </label>
+                    <input type="text" id="subgroup-name-input" required placeholder="Ej. Decoración y Flores, Transporte, Hospedaje..." class="w-full rounded-2xl border border-stone-300 px-3.5 py-2.5 text-sm text-espresso focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20">
+                </div>
+                <div class="flex items-center justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeSubgroupModal()" class="px-4 py-2 rounded-full text-xs font-semibold text-stone-600 hover:bg-stone-100 transition">Cancelar</button>
+                    <button type="submit" class="px-5 py-2 rounded-full text-xs font-semibold bg-honey hover:bg-honey-dark text-white shadow-sm transition">Guardar subgrupo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 4: ADD / EDIT TABLE (MESAS)                                     -->
+    <!-- ===================================================================== -->
+    <div id="table-modal" class="no-print fixed inset-0 z-50 hidden items-center justify-center bg-espresso/50 backdrop-blur-xs p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-honey/30">
+            <div class="flex items-start justify-between gap-3">
+                <div>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-honey-dark">Invitados y Mesas</span>
+                    <h3 id="table-modal-title" class="font-editorial text-2xl font-bold text-espresso mt-0.5">
+                        Agregar mesa
+                    </h3>
+                </div>
+                <button type="button" onclick="closeTableModal()" class="p-2 rounded-full text-stone-400 hover:text-espresso hover:bg-stone-100 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <form onsubmit="handleTableSubmit(event)" class="mt-4 space-y-4">
+                <input type="hidden" id="table-edit-id">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div class="sm:col-span-2">
+                        <label for="table-name-input" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1">
+                            Nombre / Número de mesa *
+                        </label>
+                        <input type="text" id="table-name-input" required placeholder="Ej. Mesa 1" class="w-full rounded-2xl border border-stone-300 px-3.5 py-2.5 text-sm text-espresso focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20">
+                    </div>
+                    <div>
+                        <label for="table-capacity-input" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1">
+                            Lugares *
+                        </label>
+                        <input type="number" id="table-capacity-input" min="1" max="20" value="9" required class="w-full rounded-2xl border border-stone-300 px-3.5 py-2.5 text-sm text-espresso focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20">
+                    </div>
+                </div>
+                <div>
+                    <label for="table-note-input" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1">
+                        Grupo / Etiqueta (opcional)
+                    </label>
+                    <input type="text" id="table-note-input" placeholder="Ej. Familia Novia, Familia Novio, Amigos, Mesa Principal..." class="w-full rounded-2xl border border-stone-300 px-3.5 py-2.5 text-sm text-espresso focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20">
+                </div>
+                <div class="flex items-center justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeTableModal()" class="px-4 py-2 rounded-full text-xs font-semibold text-stone-600 hover:bg-stone-100 transition">Cancelar</button>
+                    <button type="submit" class="px-5 py-2 rounded-full text-xs font-semibold bg-honey hover:bg-honey-dark text-white shadow-sm transition">Guardar mesa</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 5: PHOTO LIGHTBOX VIEWER                                        -->
+    <!-- ===================================================================== -->
+    <div id="lightbox-modal" onclick="closeLightbox()" class="no-print fixed inset-0 z-50 hidden items-center justify-center bg-espresso/90 backdrop-blur-sm p-4">
+        <div onclick="event.stopPropagation()" class="relative max-w-3xl w-full flex flex-col items-center">
+            <button type="button" onclick="closeLightbox()" class="self-end mb-2 px-3.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 text-white text-xs font-semibold transition">
+                ✕ Cerrar foto
+            </button>
+            <img id="lightbox-img" src="" alt="Foto de referencia" class="max-h-[78vh] w-auto rounded-2xl shadow-2xl border border-white/20 object-contain">
+            <p id="lightbox-caption" class="mt-2.5 text-xs text-cream/90 font-medium text-center"></p>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 6: DELETE CONFIRMATION                                          -->
     <!-- ===================================================================== -->
     <div id="delete-modal" class="no-print fixed inset-0 z-50 hidden items-center justify-center bg-espresso/50 backdrop-blur-xs p-4">
         <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-red-200 text-center">
@@ -452,13 +759,13 @@
             </div>
             <h3 id="delete-modal-title" class="font-editorial text-2xl font-bold text-espresso">¿Eliminar elemento?</h3>
             <p id="delete-modal-desc" class="text-xs text-stone-600 mt-1.5">
-                Este elemento se eliminará de la lista para todos los invitados.
+                Este elemento se eliminará de la lista para todos.
             </p>
             <div class="mt-5 flex items-center justify-center gap-2.5">
-                <button onclick="closeDeleteModal()" class="px-4 py-2 rounded-full text-xs font-semibold text-stone-600 hover:bg-stone-100 transition">
+                <button type="button" onclick="closeDeleteModal()" class="px-4 py-2 rounded-full text-xs font-semibold text-stone-600 hover:bg-stone-100 transition">
                     Cancelar
                 </button>
-                <button onclick="confirmDeleteItem()" class="px-5 py-2 rounded-full text-xs font-semibold bg-red-600 hover:bg-red-700 text-white shadow-xs transition">
+                <button type="button" onclick="confirmDeleteItem()" class="px-5 py-2 rounded-full text-xs font-semibold bg-red-600 hover:bg-red-700 text-white shadow-xs transition">
                     Sí, eliminar
                 </button>
             </div>
@@ -472,39 +779,66 @@
         const GOOGLE_SHEETS_API_URL = "https://script.google.com/macros/s/AKfycbxPcQd9Z0v9Jmqxp7qCkH5mYBKwBi2bkgGqpZsAQYPr84ZPY2-RUVwpe7YtnCotpPqA/exec";
         const LOCAL_STORAGE_KEY = "boda_martin_edna_github_v1";
 
+        const defaultSubgroups = [
+            { id: "grp-lugar", name: "Lugar y Logística del Día", collapsed: true },
+            { id: "grp-organizadores", name: "Organizadores y Encargados de Área", collapsed: true },
+            { id: "grp-proveedores", name: "Proveedores y Contactos", collapsed: true },
+            { id: "grp-costos", name: "Costos y Servicios", collapsed: true }
+        ];
+
         const defaultGeneralInfo = [
             {
                 id: "info-date",
+                groupId: "grp-lugar",
                 label: "Fecha del Evento",
                 value: "Martes 22 de diciembre de 2026",
+                responsible: "",
+                linkUrl: "",
+                photos: [],
                 confirmed: true,
                 mapsUrl: ""
             },
             {
                 id: "info-venue",
+                groupId: "grp-lugar",
                 label: "Lugar / Sede",
-                value: "Por confirmar",
-                confirmed: false,
-                mapsUrl: ""
+                value: "Comfort Inn Querétaro Tecnológico /// Prol. Tecnológico 1001-Norte, Balcon Campestre, 76159 Santiago de Querétaro, Qro /// Salón San Antonio",
+                responsible: "Sahian (Hotel)",
+                linkUrl: "",
+                photos: [],
+                confirmed: true,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Hotel+Comfort+Inn+Queretaro+Tecnologico"
             },
             {
                 id: "info-guests",
+                groupId: "grp-lugar",
                 label: "Invitados",
-                value: "30 personas (Boda íntima)",
+                value: "36 personas (Boda íntima) /// con 4 mesas redondas",
+                responsible: "",
+                linkUrl: "",
+                photos: [],
                 confirmed: true,
                 mapsUrl: ""
             },
             {
                 id: "info-dresscode",
+                groupId: "grp-lugar",
                 label: "Vestimenta y Temática",
                 value: "Formal — Temática tonos miel (ámbar, dorado cálido, beige, crema)",
+                responsible: "",
+                linkUrl: "",
+                photos: [],
                 confirmed: true,
                 mapsUrl: ""
             },
             {
                 id: "info-contact",
-                label: "Contacto de Apoyo y Fotografía",
-                value: "Santiago Piñón (Coordinación en sitio y fotografía)",
+                groupId: "grp-organizadores",
+                label: "Contacto de Apoyo",
+                value: "Santiago Piñón 55 4077 7742",
+                responsible: "Santiago Piñón",
+                linkUrl: "",
+                photos: [],
                 confirmed: true,
                 mapsUrl: ""
             }
@@ -516,7 +850,10 @@
                 time24: "13:00",
                 category: "Preparación",
                 title: "Llegada de familia y montaje",
+                responsible: "Familia y Santiago Piñón",
                 description: "Llega la familia para apoyar con el arreglo, montaje de mesas, altar y detalles del lugar.",
+                linkUrl: "",
+                photos: [],
                 confirmed: true,
                 pendingNote: ""
             },
@@ -525,7 +862,10 @@
                 time24: "15:30",
                 category: "Preparación",
                 title: "Fin de montaje familiar y arreglo personal",
+                responsible: "",
                 description: "Cierre de decoración por parte de la familia para cambiarse y alistarse con tiempo.",
+                linkUrl: "",
+                photos: [],
                 confirmed: true,
                 pendingNote: ""
             },
@@ -534,7 +874,10 @@
                 time24: "16:00",
                 category: "Preparación",
                 title: "Llegada de DJ",
+                responsible: "Dann Cedillo",
                 description: "Inicio de descarga, montaje y pruebas de audio. Puede seguir ajustando equipo hasta antes de ocuparlo.",
+                linkUrl: "",
+                photos: [],
                 confirmed: true,
                 pendingNote: ""
             },
@@ -543,7 +886,10 @@
                 time24: "17:00",
                 category: "Recepción y Cena",
                 title: "Recepción de invitados",
-                description: "Llegada y acomodo de los 30 invitados.",
+                responsible: "Santiago Piñón",
+                description: "Llegada y acomodo de los 36 invitados.",
+                linkUrl: "",
+                photos: [],
                 confirmed: true,
                 pendingNote: ""
             },
@@ -552,7 +898,10 @@
                 time24: "17:25",
                 category: "Ceremonia",
                 title: "Llamado a tomar asiento",
+                responsible: "Dann Cedillo",
                 description: "Aviso 5 minutos antes para arrancar puntuales.",
+                linkUrl: "",
+                photos: [],
                 confirmed: true,
                 pendingNote: ""
             },
@@ -561,7 +910,10 @@
                 time24: "17:30",
                 category: "Ceremonia",
                 title: "Ceremonia y Misa",
-                description: "Duración ~55 min: 15 min adoración (música por Bluetooth), 20 min prédica (Pastor Willy) y 20 min ceremonia.",
+                responsible: "Pastor Wilfrido Gómez",
+                description: "Duración ~55 min: 15 min adoración (música por Bluetooth), 20 min prédica y 20 min ceremonia.",
+                linkUrl: "",
+                photos: [],
                 confirmed: false,
                 pendingNote: "Definir canciones exactas de adoración"
             },
@@ -570,7 +922,10 @@
                 time24: "18:30",
                 category: "Ceremonia",
                 title: "Fin de ceremonia y sesión rápida de novios",
+                responsible: "Human Legacy",
                 description: "Sesión rápida de pareja mientras invitados esperan.",
+                linkUrl: "",
+                photos: [],
                 confirmed: false,
                 pendingNote: "Confirmar si se sirven canapés y si habrá piano en vivo hasta las 8:00 PM"
             },
@@ -579,7 +934,10 @@
                 time24: "19:10",
                 category: "Recepción y Cena",
                 title: "Entrada de novios y brindis",
+                responsible: "",
                 description: "Entrada tranquila de Martín y Edna. Palabras de Martín, Edna y papá. Brindis con vino sin alcohol.",
+                linkUrl: "",
+                photos: [],
                 confirmed: false,
                 pendingNote: "Definir quién reparte copas antes de las 7:10 PM"
             },
@@ -588,7 +946,10 @@
                 time24: "19:30",
                 category: "Recepción y Cena",
                 title: "Cena y sesión de fotos con invitados",
+                responsible: "Chef Josué Ramírez / Human Legacy",
                 description: "Comida combinada con fotos: DJ llama por mesa, se forman y se dividen por personas para agilizar. Comen proveedores en paralelo.",
+                linkUrl: "",
+                photos: [],
                 confirmed: true,
                 pendingNote: ""
             },
@@ -597,7 +958,10 @@
                 time24: "20:40",
                 category: "Recepción y Cena",
                 title: "Corte y servicio de pastel",
-                description: "Partida de pastel y repartición a las 30 personas.",
+                responsible: "",
+                description: "Partida de pastel y repartición a los invitados.",
+                linkUrl: "",
+                photos: [],
                 confirmed: true,
                 pendingNote: ""
             },
@@ -606,7 +970,10 @@
                 time24: "21:00",
                 category: "Recepción y Cena",
                 title: "Vals de los novios (10 min)",
+                responsible: "Dann Cedillo",
                 description: "Bailan únicamente Martín y Edna (duración estimada 10 minutos).",
+                linkUrl: "",
+                photos: [],
                 confirmed: false,
                 pendingNote: "Confirmar canción del vals"
             },
@@ -615,7 +982,10 @@
                 time24: "21:10",
                 category: "Recepción y Cena",
                 title: "Apertura de pista, baile y juegos",
+                responsible: "Dann Cedillo",
                 description: "Música variada con DJ (cumbias, salsa, ambiente) y dinámicas/juegos con los invitados.",
+                linkUrl: "",
+                photos: [],
                 confirmed: true,
                 pendingNote: ""
             },
@@ -624,7 +994,10 @@
                 time24: "22:30",
                 category: "Cierre",
                 title: "Cierre oficial del evento",
+                responsible: "Sahian / Santiago Piñón",
                 description: "Anuncio de finalización de la boda.",
+                linkUrl: "",
+                photos: [],
                 confirmed: true,
                 pendingNote: ""
             },
@@ -633,7 +1006,10 @@
                 time24: "23:00",
                 category: "Cierre",
                 title: "Desmontaje y salida",
+                responsible: "",
                 description: "Recolección de equipo del DJ, familia y cierre del lugar.",
+                linkUrl: "",
+                photos: [],
                 confirmed: true,
                 pendingNote: ""
             }
@@ -644,52 +1020,164 @@
                 id: "role-1",
                 title: "Entrada y entrega de novios",
                 value: "Definir cómo entran Martín y Edna",
+                responsible: "",
+                linkUrl: "",
+                photos: [],
                 confirmed: false
             },
             {
                 id: "role-2",
                 title: "Oficiante y Prédica",
-                value: "Pastor Willy",
+                value: "Pastor Wilfrido Gómez",
+                responsible: "Pastor Wilfrido Gómez",
+                linkUrl: "",
+                photos: [],
                 confirmed: true
             },
             {
                 id: "role-3",
                 title: "Alabanza / Adoración (15 min)",
                 value: "Música reproducida por Bluetooth",
+                responsible: "Dann Cedillo",
+                linkUrl: "",
+                photos: [],
                 confirmed: true
             },
             {
                 id: "role-4",
                 title: "Anillos de matrimonio",
                 value: "Definir quién los resguarda y entrega",
+                responsible: "",
+                linkUrl: "",
+                photos: [],
                 confirmed: false
             },
             {
                 id: "role-5",
                 title: "Biblia, votos y documentos",
                 value: "Confirmar si leerán votos escritos o firma",
+                responsible: "",
+                linkUrl: "",
+                photos: [],
                 confirmed: false
             },
             {
                 id: "role-6",
                 title: "Control de música en ceremonia",
                 value: "DJ encargado de audio y pistas",
+                responsible: "Dann Cedillo",
+                linkUrl: "",
+                photos: [],
                 confirmed: true
             }
         ];
 
         let appState = {
+            subgroups: JSON.parse(JSON.stringify(defaultSubgroups)),
             generalInfo: JSON.parse(JSON.stringify(defaultGeneralInfo)),
             schedule: JSON.parse(JSON.stringify(defaultSchedule)),
-            ceremonyRoles: JSON.parse(JSON.stringify(defaultCeremonyRoles))
+            ceremonyRoles: JSON.parse(JSON.stringify(defaultCeremonyRoles)),
+            tables: []
+        };
+
+        let collapsedSections = {
+            "sec-info": true,
+            "sec-schedule": true,
+            "sec-ceremony": true,
+            "sec-pending": true,
+            "sec-tables": true
         };
 
         let currentCategory = "all";
         let onlyPending = false;
-        let pendingDeleteTarget = null; // { type: 'schedule' | 'generalInfo' | 'ceremonyRoles', id: string }
+        let pendingDeleteTarget = null;
+        let modalTempPhotos = { sched: [], card: [] };
 
         // =====================================================================
-        // TIME FORMATTING & SORTING HELPERS
+        // SMART CLOUD MIGRATION (PRESERVES ALL EXISTING DATA WITHOUT CORRUPTING)
+        // =====================================================================
+        function inferSubgroupId(item) {
+            const text = `${item.id || ""} ${item.label || ""} ${item.value || ""}`.toLowerCase();
+            if (/fecha|lugar|sede|invitado|vestimenta|tem[aá]tica|sal[oó]n|direcci[oó]n/.test(text)) {
+                return "grp-lugar";
+            }
+            if (/apoyo|organizadora|decoraci[oó]n|centro de mesa|copas|altar|flores|pecera|sara|sahian|santiago/.test(text)) {
+                return "grp-organizadores";
+            }
+            if (/fotograf|dj|chef|cocina|piano|pastel|human legacy|dann|josu[eé]|m[uú]sica|playlist/.test(text)) {
+                return "grp-proveedores";
+            }
+            if (/comida|mesero|canap[eé]|mesa|costo|cotizad|precio|\$/.test(text)) {
+                return "grp-costos";
+            }
+            return (appState.subgroups[0] && appState.subgroups[0].id) || "grp-lugar";
+        }
+
+        function normalizeAppState(raw, forceCollapsed = false) {
+            const normalized = {
+                subgroups: Array.isArray(raw.subgroups) && raw.subgroups.length > 0
+                    ? raw.subgroups.map(g => ({
+                        id: g.id || ("grp-" + Date.now() + Math.random()),
+                        name: g.name || "General",
+                        collapsed: forceCollapsed ? true : Boolean(g.collapsed)
+                    }))
+                    : JSON.parse(JSON.stringify(defaultSubgroups)),
+                generalInfo: Array.isArray(raw.generalInfo) ? raw.generalInfo : JSON.parse(JSON.stringify(defaultGeneralInfo)),
+                schedule: Array.isArray(raw.schedule) ? raw.schedule : JSON.parse(JSON.stringify(defaultSchedule)),
+                ceremonyRoles: Array.isArray(raw.ceremonyRoles) ? raw.ceremonyRoles : JSON.parse(JSON.stringify(defaultCeremonyRoles)),
+                tables: Array.isArray(raw.tables) ? raw.tables : []
+            };
+
+            const validGroupIds = new Set(normalized.subgroups.map(g => g.id));
+
+            normalized.generalInfo = normalized.generalInfo.map(item => {
+                const assignedGroup = (item.groupId && validGroupIds.has(item.groupId))
+                    ? item.groupId
+                    : inferSubgroupId(item);
+                return {
+                    ...item,
+                    groupId: assignedGroup,
+                    responsible: item.responsible || "",
+                    linkUrl: item.linkUrl || "",
+                    photos: Array.isArray(item.photos) ? item.photos : [],
+                    mapsUrl: item.mapsUrl || ""
+                };
+            });
+
+            normalized.schedule = normalized.schedule.map(item => ({
+                ...item,
+                responsible: item.responsible || "",
+                linkUrl: item.linkUrl || "",
+                photos: Array.isArray(item.photos) ? item.photos : [],
+                pendingNote: item.pendingNote || ""
+            }));
+
+            normalized.ceremonyRoles = normalized.ceremonyRoles.map(role => ({
+                ...role,
+                responsible: role.responsible || "",
+                linkUrl: role.linkUrl || "",
+                photos: Array.isArray(role.photos) ? role.photos : []
+            }));
+
+            normalized.tables = normalized.tables.map((t, idx) => ({
+                id: t.id || ("tbl-" + Date.now() + idx),
+                name: t.name || `Mesa ${idx + 1}`,
+                capacity: Number(t.capacity) || 9,
+                note: t.note || "",
+                collapsed: forceCollapsed ? true : Boolean(t.collapsed),
+                guests: Array.isArray(t.guests)
+                    ? t.guests.map((g, gIdx) => typeof g === "string"
+                        ? { id: "gst-" + Date.now() + gIdx, name: g, confirmed: true }
+                        : { id: g.id || ("gst-" + Date.now() + gIdx), name: g.name || "", confirmed: g.confirmed !== false }
+                    )
+                    : []
+            }));
+
+            return normalized;
+        }
+
+        // =====================================================================
+        // TIME FORMATTING, SORTING & RESPONSIBLES AUTOCOMPLETE
         // =====================================================================
         function formatTime12h(time24) {
             if (!time24 || !time24.includes(":")) return time24 || "";
@@ -707,6 +1195,102 @@
                 const normB = b.time24 < "05:00" ? "24" + b.time24 : b.time24;
                 return normA.localeCompare(normB);
             });
+        }
+
+        function refreshResponsiblesDatalist() {
+            const datalist = document.getElementById("responsibles-datalist");
+            if (!datalist) return;
+            const names = new Set([
+                "Santiago Piñón",
+                "Sahian (Hotel)",
+                "Pastor Wilfrido Gómez",
+                "Dann Cedillo (DJ)",
+                "Chef Josué Ramírez",
+                "Human Legacy (Fotografía)",
+                "Sara",
+                "Martín",
+                "Edna"
+            ]);
+            appState.generalInfo.forEach(i => { if (i.responsible) names.add(i.responsible.trim()); });
+            appState.schedule.forEach(s => { if (s.responsible) names.add(s.responsible.trim()); });
+            appState.ceremonyRoles.forEach(r => { if (r.responsible) names.add(r.responsible.trim()); });
+
+            datalist.innerHTML = Array.from(names)
+                .filter(Boolean)
+                .sort((a, b) => a.localeCompare(b))
+                .map(n => `<option value="${escapeHtml(n)}"></option>`)
+                .join("");
+        }
+
+        // =====================================================================
+        // NAVIGATION & COLLAPSIBLE SECTIONS
+        // =====================================================================
+        function toggleMobileDrawer() {
+            const drawer = document.getElementById("mobile-nav-drawer");
+            if (drawer) drawer.classList.toggle("hidden");
+        }
+
+        function jumpToSection(secId) {
+            const drawer = document.getElementById("mobile-nav-drawer");
+            if (drawer) drawer.classList.add("hidden");
+            ensureSectionOpen(secId);
+        }
+
+        function ensureSectionOpen(secId) {
+            if (collapsedSections[secId]) {
+                collapsedSections[secId] = false;
+                applySectionCollapseUI(secId);
+            }
+        }
+
+        function applySectionCollapseUI(secId) {
+            const body = document.getElementById("body-" + secId);
+            const chev = document.getElementById("chevron-" + secId);
+            if (!body || !chev) return;
+            if (collapsedSections[secId]) {
+                body.classList.add("hidden");
+                chev.style.transform = "rotate(-90deg)";
+            } else {
+                body.classList.remove("hidden");
+                chev.style.transform = "rotate(0deg)";
+            }
+            updateGlobalCollapseButton();
+        }
+
+        function toggleMainSection(secId) {
+            collapsedSections[secId] = !collapsedSections[secId];
+            applySectionCollapseUI(secId);
+        }
+
+        function updateGlobalCollapseButton() {
+            const label = document.getElementById("label-toggle-all");
+            if (!label) return;
+            const anyOpen = Object.values(collapsedSections).some(v => !v);
+            label.textContent = anyOpen ? "Colapsar todo" : "Expandir todo";
+        }
+
+        function toggleAllSections() {
+            const anyOpen = Object.values(collapsedSections).some(v => !v);
+            const targetState = anyOpen; // if any open, collapse all; otherwise expand all
+            Object.keys(collapsedSections).forEach(secId => {
+                collapsedSections[secId] = targetState;
+                applySectionCollapseUI(secId);
+            });
+        }
+
+        function toggleSubgroupCollapse(groupId) {
+            const grp = appState.subgroups.find(g => g.id === groupId);
+            if (!grp) return;
+            grp.collapsed = !grp.collapsed;
+            saveToLocalStorage();
+            renderGeneralInfo();
+        }
+
+        function toggleAllSubgroups() {
+            const anyOpen = appState.subgroups.some(g => !g.collapsed);
+            appState.subgroups.forEach(g => { g.collapsed = anyOpen; });
+            saveToLocalStorage();
+            renderGeneralInfo();
         }
 
         // =====================================================================
@@ -731,13 +1315,13 @@
             }
         }
 
-        function loadFromLocalStorage() {
+        function loadFromLocalStorage(forceCollapsed = false) {
             try {
                 const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
                 if (raw) {
                     const parsed = JSON.parse(raw);
-                    if (parsed.generalInfo && parsed.schedule && parsed.ceremonyRoles) {
-                        appState = parsed;
+                    if (parsed && (parsed.generalInfo || parsed.schedule || parsed.ceremonyRoles)) {
+                        appState = normalizeAppState(parsed, forceCollapsed);
                     }
                 }
             } catch (e) {
@@ -753,7 +1337,7 @@
             }
         }
 
-        async function fetchFromGoogleSheets(showNotification = false) {
+        async function fetchFromGoogleSheets(showNotification = false, isInitialLoad = false) {
             setSyncStatus("loading", "Sincronizando...");
             try {
                 const response = await fetch(GOOGLE_SHEETS_API_URL, {
@@ -763,11 +1347,17 @@
                 const cloudData = await response.json();
 
                 if (cloudData && Array.isArray(cloudData.schedule) && cloudData.schedule.length > 0) {
-                    appState = cloudData;
+                    const hadSubgroups = Array.isArray(cloudData.subgroups) && cloudData.subgroups.length > 0;
+                    appState = normalizeAppState(cloudData, isInitialLoad);
                     sortScheduleChronologically();
                     saveToLocalStorage();
                     renderAll();
-                    setSyncStatus("synced", "Sincronizado en vivo");
+
+                    if (!hadSubgroups) {
+                        await pushToGoogleSheets(false);
+                    } else {
+                        setSyncStatus("synced", "Sincronizado en vivo");
+                    }
                     if (showNotification) showToast("Datos actualizados desde la nube");
                 } else {
                     await pushToGoogleSheets(false);
@@ -808,6 +1398,105 @@
         }
 
         // =====================================================================
+        // PHOTO COMPRESSION & LIGHTBOX HELPERS
+        // =====================================================================
+        function compressImageFile(file, maxWidth = 680, quality = 0.65) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    const img = new Image();
+                    img.onload = () => {
+                        let w = img.width;
+                        let h = img.height;
+                        if (w > maxWidth) {
+                            h = Math.round((h * maxWidth) / w);
+                            w = maxWidth;
+                        }
+                        const canvas = document.createElement("canvas");
+                        canvas.width = w;
+                        canvas.height = h;
+                        const ctx = canvas.getContext("2d");
+                        ctx.drawImage(img, 0, 0, w, h);
+                        resolve(canvas.toDataURL("image/jpeg", quality));
+                    };
+                    img.onerror = reject;
+                    img.src = e.target.result;
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function handleModalPhotoUpload(event, target) {
+            const files = Array.from(event.target.files || []);
+            if (files.length === 0) return;
+            showToast("Optimizando foto...");
+            for (const file of files) {
+                try {
+                    const compressed = await compressImageFile(file);
+                    modalTempPhotos[target].push(compressed);
+                } catch (err) {
+                    console.warn("Error procesando foto:", err);
+                }
+            }
+            event.target.value = "";
+            renderModalPhotoPreviews(target);
+        }
+
+        function removeModalPhoto(target, idx) {
+            modalTempPhotos[target].splice(idx, 1);
+            renderModalPhotoPreviews(target);
+        }
+
+        function renderModalPhotoPreviews(target) {
+            const box = document.getElementById(target === "sched" ? "sched-photos-preview" : "card-photos-preview");
+            if (!box) return;
+            const list = modalTempPhotos[target] || [];
+            if (list.length === 0) {
+                box.innerHTML = `<span class="text-[11px] text-stone-400 italic">Sin fotos adjuntas</span>`;
+                return;
+            }
+            box.innerHTML = list.map((src, idx) => `
+                <div class="relative w-16 h-16 rounded-xl overflow-hidden border border-stone-300 group">
+                    <img src="${src}" alt="Vista previa" class="w-full h-full object-cover">
+                    <button type="button" onclick="removeModalPhoto('${target}', ${idx})" class="absolute top-0.5 right-0.5 w-5 h-5 rounded-full bg-red-600 text-white text-[10px] font-bold flex items-center justify-center shadow">✕</button>
+                </div>
+            `).join("");
+        }
+
+        function openLightbox(src, caption = "") {
+            const modal = document.getElementById("lightbox-modal");
+            const img = document.getElementById("lightbox-img");
+            const cap = document.getElementById("lightbox-caption");
+            if (!modal || !img) return;
+            img.src = src;
+            if (cap) cap.textContent = caption;
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById("lightbox-modal");
+            if (!modal) return;
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+        }
+
+        function renderPhotoStrip(photos, title) {
+            if (!Array.isArray(photos) || photos.length === 0) return "";
+            const safeTitle = escapeHtml(title || "");
+            return `
+                <div class="mt-2.5 flex flex-wrap items-center gap-1.5">
+                    ${photos.map((src, i) => `
+                        <button type="button" onclick="openLightbox('${src}', '${safeTitle} (Foto ${i + 1})')" class="relative w-12 h-12 rounded-xl overflow-hidden border border-honey/40 hover:ring-2 hover:ring-honey transition shrink-0" title="Ver foto completa">
+                            <img src="${src}" alt="Referencia ${i + 1}" class="w-full h-full object-cover">
+                        </button>
+                    `).join("")}
+                </div>
+            `;
+        }
+
+        // =====================================================================
         // RENDERING FUNCTIONS
         // =====================================================================
         function escapeHtml(str) {
@@ -820,41 +1509,100 @@
         }
 
         function renderGeneralInfo() {
-            const container = document.getElementById("general-info-grid");
+            const container = document.getElementById("general-info-subgroups");
+            const countBadge = document.getElementById("count-sec-info");
             if (!container) return;
 
-            container.innerHTML = appState.generalInfo.map(item => {
-                const isConf = item.confirmed;
-                const cardStyle = isConf
-                    ? "bg-white border-stone-200/90"
-                    : "bg-amber-50/90 border-amber-300 ring-1 ring-amber-200/60";
-                const badgeHtml = isConf
-                    ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800">✓ Confirmado</span>`
-                    : `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-200 text-amber-900">! Por confirmar</span>`;
+            if (countBadge) {
+                countBadge.textContent = `${appState.generalInfo.length} ${appState.generalInfo.length === 1 ? "dato" : "datos"}`;
+            }
 
-                const mapsButton = (item.id === "info-venue" && item.mapsUrl && item.mapsUrl.trim() !== "")
-                    ? `<a href="${escapeHtml(item.mapsUrl)}" target="_blank" rel="noopener noreferrer" class="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-honey-dark hover:underline">
-                         <span>📍 Ver ubicación en Google Maps</span>
-                       </a>`
-                    : "";
+            container.innerHTML = appState.subgroups.map((grp, grpIdx) => {
+                const itemsInGroup = appState.generalInfo.filter(i => i.groupId === grp.id);
+                const pendingInGroup = itemsInGroup.filter(i => !i.confirmed).length;
+
+                const cardsHtml = itemsInGroup.length === 0
+                    ? `<div class="col-span-full rounded-2xl border border-dashed border-stone-300 bg-white/60 p-4 text-center text-xs text-stone-500">
+                         Subgrupo vacío. Agrega un dato aquí o mueve una tarjeta existente a este subgrupo.
+                       </div>`
+                    : itemsInGroup.map((item, idxInGrp) => {
+                        const isConf = item.confirmed;
+                        const cardStyle = isConf
+                            ? "bg-white border-stone-200/90"
+                            : "bg-amber-50/90 border-amber-300 ring-1 ring-amber-200/60";
+                        const badgeHtml = isConf
+                            ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800">✓ Confirmado</span>`
+                            : `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-200 text-amber-900">! Por confirmar</span>`;
+
+                        const respChip = item.responsible
+                            ? `<span class="mt-2 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-sand text-espresso border border-stone-200">👤 ${escapeHtml(item.responsible)}</span>`
+                            : "";
+
+                        const linkBtn = item.linkUrl && item.linkUrl.trim() !== ""
+                            ? `<a href="${escapeHtml(item.linkUrl)}" target="_blank" rel="noopener noreferrer" class="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-honey-dark hover:underline mr-3">
+                                 <span>🔗 Abrir enlace</span>
+                               </a>`
+                            : "";
+
+                        const mapsButton = (item.id === "info-venue" && item.mapsUrl && item.mapsUrl.trim() !== "")
+                            ? `<a href="${escapeHtml(item.mapsUrl)}" target="_blank" rel="noopener noreferrer" class="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-honey-dark hover:underline">
+                                 <span>📍 Ver ubicación en Google Maps</span>
+                               </a>`
+                            : "";
+
+                        const photosHtml = renderPhotoStrip(item.photos, item.label);
+
+                        return `
+                            <div class="rounded-2xl border p-4 shadow-2xs flex flex-col justify-between transition ${cardStyle}">
+                                <div>
+                                    <div class="flex items-start justify-between gap-2 mb-2">
+                                        <span class="text-[11px] font-bold uppercase tracking-wider text-stone-500">${escapeHtml(item.label)}</span>
+                                        <div class="shrink-0">${badgeHtml}</div>
+                                    </div>
+                                    <p class="text-sm font-semibold text-espresso leading-snug">${escapeHtml(item.value)}</p>
+                                    <div class="flex flex-wrap items-center gap-x-2">
+                                        ${respChip}
+                                        ${linkBtn}
+                                        ${mapsButton}
+                                    </div>
+                                    ${photosHtml}
+                                </div>
+                                <div class="no-print mt-3.5 pt-2.5 border-t border-stone-200/60 flex items-center justify-between gap-1">
+                                    <div class="flex items-center gap-1">
+                                        <button type="button" onclick="moveGeneralCard('${item.id}', -1)" ${idxInGrp === 0 ? "disabled" : ""} title="Subir prioridad" class="p-1.5 rounded-full text-stone-500 hover:bg-sand disabled:opacity-30 transition">↑</button>
+                                        <button type="button" onclick="moveGeneralCard('${item.id}', 1)" ${idxInGrp === itemsInGroup.length - 1 ? "disabled" : ""} title="Bajar prioridad" class="p-1.5 rounded-full text-stone-500 hover:bg-sand disabled:opacity-30 transition">↓</button>
+                                        <button type="button" onclick="openDeleteModal('generalInfo', '${item.id}')" title="Eliminar tarjeta" class="text-xs font-semibold text-red-600 hover:bg-red-50 px-2 py-1 rounded-full transition">
+                                            Eliminar
+                                        </button>
+                                    </div>
+                                    <button type="button" onclick="openCardEditModal('generalInfo', '${item.id}')" class="text-xs font-semibold text-honey-dark hover:text-espresso px-2.5 py-1 rounded-full hover:bg-honey-light transition">
+                                        Editar / Confirmar
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    }).join("");
 
                 return `
-                    <div class="rounded-2xl border p-4 shadow-2xs flex flex-col justify-between transition ${cardStyle}">
-                        <div>
-                            <div class="flex items-center justify-between gap-2 mb-2">
-                                <span class="text-[11px] font-bold uppercase tracking-wider text-stone-500">${escapeHtml(item.label)}</span>
-                                <div class="shrink-0">${badgeHtml}</div>
+                    <div class="rounded-2xl bg-sand/65 border border-honey/25 overflow-hidden">
+                        <div class="px-4 py-3 bg-sand flex flex-wrap items-center justify-between gap-2">
+                            <button type="button" onclick="toggleSubgroupCollapse('${grp.id}')" class="flex items-center gap-2 text-left flex-1 min-w-0">
+                                <span class="text-xs font-bold text-honey-dark transition-transform" style="transform: rotate(${grp.collapsed ? "-90deg" : "0deg"})">▼</span>
+                                <h3 class="font-editorial text-xl font-bold text-espresso truncate">${escapeHtml(grp.name)}</h3>
+                                <span class="px-2 py-0.5 rounded-full bg-white text-stone-700 text-[11px] font-bold border border-stone-200">${itemsInGroup.length}</span>
+                                ${pendingInGroup > 0 ? `<span class="px-2 py-0.5 rounded-full bg-amber-200 text-amber-950 text-[10px] font-bold">${pendingInGroup} pend.</span>` : ""}
+                            </button>
+
+                            <div class="no-print flex items-center gap-1">
+                                <button type="button" onclick="moveSubgroup('${grp.id}', -1)" ${grpIdx === 0 ? "disabled" : ""} title="Subir subgrupo" class="px-2 py-1 rounded-full text-xs font-bold bg-white/80 hover:bg-white text-espresso disabled:opacity-30 border border-stone-200 transition">↑</button>
+                                <button type="button" onclick="moveSubgroup('${grp.id}', 1)" ${grpIdx === appState.subgroups.length - 1 ? "disabled" : ""} title="Bajar subgrupo" class="px-2 py-1 rounded-full text-xs font-bold bg-white/80 hover:bg-white text-espresso disabled:opacity-30 border border-stone-200 transition">↓</button>
+                                <button type="button" onclick="openRenameSubgroupModal('${grp.id}')" title="Renombrar subgrupo" class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-white/80 hover:bg-white text-honey-dark border border-stone-200 transition">Renombrar</button>
+                                ${appState.subgroups.length > 1 ? `<button type="button" onclick="openDeleteModal('subgroup', '${grp.id}')" title="Eliminar subgrupo" class="px-2 py-1 rounded-full text-[11px] font-semibold text-red-600 hover:bg-red-50 transition">✕</button>` : ""}
                             </div>
-                            <p class="text-sm font-semibold text-espresso leading-snug">${escapeHtml(item.value)}</p>
-                            ${mapsButton}
                         </div>
-                        <div class="no-print mt-3.5 pt-2.5 border-t border-stone-200/60 flex items-center justify-between">
-                            <button onclick="openDeleteModal('generalInfo', '${item.id}')" title="Eliminar tarjeta" class="text-xs font-semibold text-red-600 hover:bg-red-50 px-2 py-1 rounded-full transition">
-                                Eliminar
-                            </button>
-                            <button onclick="openCardEditModal('generalInfo', '${item.id}')" class="text-xs font-semibold text-honey-dark hover:text-espresso px-2.5 py-1 rounded-full hover:bg-honey-light transition">
-                                Editar / Confirmar
-                            </button>
+
+                        <div class="${grp.collapsed ? "hidden" : ""} p-3.5 sm:p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                            ${cardsHtml}
                         </div>
                     </div>
                 `;
@@ -863,7 +1611,12 @@
 
         function renderSchedule() {
             const container = document.getElementById("schedule-list");
+            const countBadge = document.getElementById("count-sec-schedule");
             if (!container) return;
+
+            if (countBadge) {
+                countBadge.textContent = `${appState.schedule.length} ${appState.schedule.length === 1 ? "horario" : "horarios"}`;
+            }
 
             const filtered = appState.schedule.filter(item => {
                 const matchesCat = currentCategory === "all" || item.category === currentCategory;
@@ -887,6 +1640,18 @@
                     ? "bg-white border-stone-200/90 hover:border-honey/40"
                     : "bg-amber-50/80 border-amber-300 ring-1 ring-amber-200/50";
 
+                const respChip = item.responsible
+                    ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-honey-light text-honey-dark border border-honey/25">
+                         👤 ${escapeHtml(item.responsible)}
+                       </span>`
+                    : "";
+
+                const linkBtn = item.linkUrl && item.linkUrl.trim() !== ""
+                    ? `<a href="${escapeHtml(item.linkUrl)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-sand text-espresso hover:bg-honey-light border border-stone-200 transition">
+                         🔗 Abrir enlace
+                       </a>`
+                    : "";
+
                 const statusHtml = isConf
                     ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800">
                          ✓ Confirmado
@@ -894,6 +1659,8 @@
                     : `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-200 text-amber-950">
                          ! Por confirmar${item.pendingNote ? `: ${escapeHtml(item.pendingNote)}` : ""}
                        </span>`;
+
+                const photosHtml = renderPhotoStrip(item.photos, `${formatTime12h(item.time24)} — ${item.title}`);
 
                 return `
                     <article class="rounded-2xl border p-4 sm:p-5 shadow-2xs transition ${cardBorder}">
@@ -912,23 +1679,26 @@
                                     <h3 class="text-base sm:text-lg font-bold text-espresso leading-snug">
                                         ${escapeHtml(item.title)}
                                     </h3>
+                                    ${respChip}
                                 </div>
                                 <p class="text-xs sm:text-sm text-stone-600 leading-relaxed">
                                     ${escapeHtml(item.description)}
                                 </p>
-                                <div class="mt-2.5">
+                                <div class="mt-2.5 flex flex-wrap items-center gap-2">
                                     ${statusHtml}
+                                    ${linkBtn}
                                 </div>
+                                ${photosHtml}
                             </div>
 
                             <div class="no-print flex items-center gap-1.5 self-end sm:self-start shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-stone-200/60 w-full sm:w-auto justify-end">
-                                <button onclick="openEditScheduleModal('${item.id}')" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold bg-honey-light hover:bg-honey hover:text-white text-honey-dark transition">
+                                <button type="button" onclick="openEditScheduleModal('${item.id}')" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold bg-honey-light hover:bg-honey hover:text-white text-honey-dark transition">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                     </svg>
                                     <span>Editar</span>
                                 </button>
-                                <button onclick="openDeleteModal('schedule', '${item.id}')" title="Eliminar horario" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-semibold text-red-700 hover:bg-red-100 transition">
+                                <button type="button" onclick="openDeleteModal('schedule', '${item.id}')" title="Eliminar horario" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-semibold text-red-700 hover:bg-red-100 transition">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                     </svg>
@@ -943,9 +1713,14 @@
 
         function renderCeremonyRoles() {
             const container = document.getElementById("ceremony-roles-grid");
+            const countBadge = document.getElementById("count-sec-ceremony");
             if (!container) return;
 
-            container.innerHTML = appState.ceremonyRoles.map(role => {
+            if (countBadge) {
+                countBadge.textContent = `${appState.ceremonyRoles.length} ${appState.ceremonyRoles.length === 1 ? "rol" : "roles"}`;
+            }
+
+            container.innerHTML = appState.ceremonyRoles.map((role, idx) => {
                 const isConf = role.confirmed;
                 const cardStyle = isConf
                     ? "bg-white border-stone-200/90"
@@ -953,6 +1728,18 @@
                 const badgeHtml = isConf
                     ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800">✓ Confirmado</span>`
                     : `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-200 text-amber-900">! Por confirmar</span>`;
+
+                const respChip = role.responsible
+                    ? `<span class="mt-2 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-sand text-espresso border border-stone-200">👤 ${escapeHtml(role.responsible)}</span>`
+                    : "";
+
+                const linkBtn = role.linkUrl && role.linkUrl.trim() !== ""
+                    ? `<a href="${escapeHtml(role.linkUrl)}" target="_blank" rel="noopener noreferrer" class="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-honey-dark hover:underline">
+                         <span>🔗 Abrir enlace</span>
+                       </a>`
+                    : "";
+
+                const photosHtml = renderPhotoStrip(role.photos, role.title);
 
                 return `
                     <div class="rounded-2xl border p-4 shadow-2xs flex flex-col justify-between transition ${cardStyle}">
@@ -962,12 +1749,21 @@
                                 <div class="shrink-0">${badgeHtml}</div>
                             </div>
                             <p class="text-xs sm:text-sm text-stone-700 leading-relaxed">${escapeHtml(role.value)}</p>
+                            <div class="flex flex-wrap items-center gap-2">
+                                ${respChip}
+                                ${linkBtn}
+                            </div>
+                            ${photosHtml}
                         </div>
-                        <div class="no-print mt-3.5 pt-2.5 border-t border-stone-200/60 flex items-center justify-between">
-                            <button onclick="openDeleteModal('ceremonyRoles', '${role.id}')" title="Eliminar rol o elemento" class="text-xs font-semibold text-red-600 hover:bg-red-50 px-2 py-1 rounded-full transition">
-                                Eliminar
-                            </button>
-                            <button onclick="openCardEditModal('ceremonyRoles', '${role.id}')" class="text-xs font-semibold text-honey-dark hover:text-espresso px-2.5 py-1 rounded-full hover:bg-honey-light transition">
+                        <div class="no-print mt-3.5 pt-2.5 border-t border-stone-200/60 flex items-center justify-between gap-1">
+                            <div class="flex items-center gap-1">
+                                <button type="button" onclick="moveCeremonyRole('${role.id}', -1)" ${idx === 0 ? "disabled" : ""} title="Subir" class="p-1.5 rounded-full text-stone-500 hover:bg-sand disabled:opacity-30 transition">↑</button>
+                                <button type="button" onclick="moveCeremonyRole('${role.id}', 1)" ${idx === appState.ceremonyRoles.length - 1 ? "disabled" : ""} title="Bajar" class="p-1.5 rounded-full text-stone-500 hover:bg-sand disabled:opacity-30 transition">↓</button>
+                                <button type="button" onclick="openDeleteModal('ceremonyRoles', '${role.id}')" title="Eliminar rol o elemento" class="text-xs font-semibold text-red-600 hover:bg-red-50 px-2 py-1 rounded-full transition">
+                                    Eliminar
+                                </button>
+                            </div>
+                            <button type="button" onclick="openCardEditModal('ceremonyRoles', '${role.id}')" class="text-xs font-semibold text-honey-dark hover:text-espresso px-2.5 py-1 rounded-full hover:bg-honey-light transition">
                                 Confirmar / Editar
                             </button>
                         </div>
@@ -980,14 +1776,16 @@
             const listEl = document.getElementById("pending-summary-list");
             const totalBadge = document.getElementById("total-pending-badge");
             const filterPill = document.getElementById("pending-count-pill");
+            const navPending = document.getElementById("nav-pending-count");
             if (!listEl || !totalBadge || !filterPill) return;
 
             const pendingItems = [];
 
             appState.generalInfo.forEach(item => {
                 if (!item.confirmed) {
+                    const grp = appState.subgroups.find(g => g.id === item.groupId);
                     pendingItems.push({
-                        section: "Información General",
+                        section: `Info General · ${grp ? grp.name : "General"}`,
                         title: item.label,
                         detail: item.value
                     });
@@ -1017,6 +1815,7 @@
             const schedPendingCount = appState.schedule.filter(s => !s.confirmed).length;
             filterPill.textContent = schedPendingCount;
             totalBadge.textContent = `${pendingItems.length} ${pendingItems.length === 1 ? "pendiente" : "pendientes"}`;
+            if (navPending) navPending.textContent = pendingItems.length;
 
             if (pendingItems.length === 0) {
                 listEl.innerHTML = `
@@ -1038,11 +1837,195 @@
             `).join("");
         }
 
+        function renderTables() {
+            const container = document.getElementById("tables-grid");
+            const summaryPill = document.getElementById("tables-summary-pill");
+            if (!container) return;
+
+            const totalTables = appState.tables.length;
+            const totalAssigned = appState.tables.reduce((acc, t) => acc + t.guests.length, 0);
+
+            if (summaryPill) {
+                summaryPill.textContent = `${totalTables} ${totalTables === 1 ? "mesa" : "mesas"} · ${totalAssigned} invitados asignados de 36`;
+            }
+
+            if (totalTables === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full rounded-2xl border-2 border-dashed border-honey/30 bg-sand/40 p-7 text-center">
+                        <p class="font-editorial text-xl font-bold text-espresso">Aún no hay mesas configuradas</p>
+                        <p class="text-xs text-stone-600 mt-1 max-w-md mx-auto">
+                            Cuando tengas lista la distribución de tus 4 mesas redondas, haz clic en <strong>"+ Agregar mesa"</strong> para ir acomodando a los invitados.
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = appState.tables.map((table, tIdx) => {
+                const isFull = table.guests.length >= table.capacity;
+                const otherTables = appState.tables.filter(t => t.id !== table.id);
+
+                const guestsHtml = table.guests.length === 0
+                    ? `<p class="text-xs text-stone-400 italic py-2">Sin invitados asignados todavía.</p>`
+                    : `<ul class="space-y-1.5">
+                        ${table.guests.map((g, gIdx) => `
+                            <li class="flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-sand/70 border border-stone-200/80 text-xs">
+                                <button type="button" onclick="toggleGuestConfirmed('${table.id}', '${g.id}')" class="flex items-center gap-2 text-left flex-1 min-w-0" title="Tocar para cambiar entre Confirmado / Por confirmar">
+                                    <span class="w-5 h-5 rounded-full text-[10px] font-bold flex items-center justify-center shrink-0 ${g.confirmed ? "bg-emerald-100 text-emerald-800" : "bg-amber-200 text-amber-900"}">
+                                        ${gIdx + 1}
+                                    </span>
+                                    <span class="font-semibold text-espresso truncate">${escapeHtml(g.name)}</span>
+                                    <span class="text-[10px] px-1.5 py-0.2 rounded-full shrink-0 ${g.confirmed ? "bg-emerald-100/80 text-emerald-800" : "bg-amber-100 text-amber-900"}">
+                                        ${g.confirmed ? "✓" : "?"}
+                                    </span>
+                                </button>
+                                <div class="no-print flex items-center gap-1 shrink-0">
+                                    ${otherTables.length > 0 ? `
+                                        <select onchange="moveGuestToTable('${table.id}', '${g.id}', this.value)" aria-label="Mover invitado a otra mesa" class="text-[11px] bg-white border border-stone-200 rounded-lg px-1.5 py-1 text-stone-600">
+                                            <option value="">Mover...</option>
+                                            ${otherTables.map(ot => `<option value="${ot.id}">${escapeHtml(ot.name)}</option>`).join("")}
+                                        </select>
+                                    ` : ""}
+                                    <button type="button" onclick="removeGuestFromTable('${table.id}', '${g.id}')" title="Quitar invitado" class="p-1 text-red-600 hover:bg-red-50 rounded-full transition">✕</button>
+                                </div>
+                            </li>
+                        `).join("")}
+                      </ul>`;
+
+                return `
+                    <div class="rounded-2xl bg-white border border-stone-200/90 shadow-2xs overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <div class="px-4 py-3 bg-sand/80 border-b border-stone-200/80 flex items-center justify-between gap-2">
+                                <button type="button" onclick="toggleTableCollapse('${table.id}')" class="flex items-center gap-2 text-left flex-1 min-w-0">
+                                    <span class="text-xs font-bold text-honey-dark" style="transform: rotate(${table.collapsed ? "-90deg" : "0deg"})">▼</span>
+                                    <div class="min-w-0">
+                                        <div class="flex items-center gap-2">
+                                            <h3 class="font-editorial text-xl font-bold text-espresso truncate">${escapeHtml(table.name)}</h3>
+                                            <span class="px-2 py-0.5 rounded-full text-[11px] font-bold ${isFull ? "bg-emerald-100 text-emerald-800" : "bg-honey-light text-honey-dark"}">
+                                                ${table.guests.length} / ${table.capacity}
+                                            </span>
+                                        </div>
+                                        ${table.note ? `<p class="text-[11px] text-stone-500 truncate">${escapeHtml(table.note)}</p>` : ""}
+                                    </div>
+                                </button>
+
+                                <div class="no-print flex items-center gap-1 shrink-0">
+                                    <button type="button" onclick="moveTableOrder('${table.id}', -1)" ${tIdx === 0 ? "disabled" : ""} class="p-1.5 rounded-full text-stone-500 hover:bg-white disabled:opacity-30 transition">↑</button>
+                                    <button type="button" onclick="moveTableOrder('${table.id}', 1)" ${tIdx === totalTables - 1 ? "disabled" : ""} class="p-1.5 rounded-full text-stone-500 hover:bg-white disabled:opacity-30 transition">↓</button>
+                                    <button type="button" onclick="openEditTableModal('${table.id}')" class="px-2.5 py-1 rounded-full text-[11px] font-semibold text-honey-dark hover:bg-white transition">Editar</button>
+                                    <button type="button" onclick="openDeleteModal('table', '${table.id}')" class="px-2 py-1 rounded-full text-[11px] font-semibold text-red-600 hover:bg-red-50 transition">✕</button>
+                                </div>
+                            </div>
+
+                            <div class="${table.collapsed ? "hidden" : ""} p-4 space-y-3">
+                                ${guestsHtml}
+
+                                <form onsubmit="addGuestToTable(event, '${table.id}')" class="no-print pt-2 border-t border-stone-200/70 flex items-center gap-2">
+                                    <input type="text" id="guest-input-${table.id}" placeholder="Nombre del invitado..." required class="flex-1 rounded-xl border border-stone-300 px-3 py-2 text-xs text-espresso focus:outline-none focus:border-honey">
+                                    <button type="submit" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-espresso hover:bg-stone-800 text-cream transition shrink-0">
+                                        + Agregar
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        }
+
         function renderAll() {
+            refreshResponsiblesDatalist();
             renderGeneralInfo();
             renderSchedule();
             renderCeremonyRoles();
             renderPendingSummary();
+            renderTables();
+        }
+
+        // =====================================================================
+        // REORDERING & SUBGROUP HANDLERS
+        // =====================================================================
+        async function moveSubgroup(groupId, direction) {
+            const idx = appState.subgroups.findIndex(g => g.id === groupId);
+            const targetIdx = idx + direction;
+            if (idx === -1 || targetIdx < 0 || targetIdx >= appState.subgroups.length) return;
+            const [moved] = appState.subgroups.splice(idx, 1);
+            appState.subgroups.splice(targetIdx, 0, moved);
+            await pushToGoogleSheets(true);
+        }
+
+        async function moveGeneralCard(cardId, direction) {
+            const card = appState.generalInfo.find(c => c.id === cardId);
+            if (!card) return;
+            const groupCards = appState.generalInfo.filter(c => c.groupId === card.groupId);
+            const posInGroup = groupCards.findIndex(c => c.id === cardId);
+            const targetPos = posInGroup + direction;
+            if (targetPos < 0 || targetPos >= groupCards.length) return;
+
+            const swapTargetId = groupCards[targetPos].id;
+            const globalIdxA = appState.generalInfo.findIndex(c => c.id === cardId);
+            const globalIdxB = appState.generalInfo.findIndex(c => c.id === swapTargetId);
+
+            [appState.generalInfo[globalIdxA], appState.generalInfo[globalIdxB]] = [
+                appState.generalInfo[globalIdxB],
+                appState.generalInfo[globalIdxA]
+            ];
+            await pushToGoogleSheets(true);
+        }
+
+        async function moveCeremonyRole(roleId, direction) {
+            const idx = appState.ceremonyRoles.findIndex(r => r.id === roleId);
+            const targetIdx = idx + direction;
+            if (idx === -1 || targetIdx < 0 || targetIdx >= appState.ceremonyRoles.length) return;
+            const [moved] = appState.ceremonyRoles.splice(idx, 1);
+            appState.ceremonyRoles.splice(targetIdx, 0, moved);
+            await pushToGoogleSheets(true);
+        }
+
+        function openAddSubgroupModal() {
+            document.getElementById("subgroup-modal-title").textContent = "Nuevo subgrupo";
+            document.getElementById("subgroup-edit-id").value = "";
+            document.getElementById("subgroup-name-input").value = "";
+            const modal = document.getElementById("subgroup-modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        }
+
+        function openRenameSubgroupModal(groupId) {
+            const grp = appState.subgroups.find(g => g.id === groupId);
+            if (!grp) return;
+            document.getElementById("subgroup-modal-title").textContent = "Renombrar subgrupo";
+            document.getElementById("subgroup-edit-id").value = grp.id;
+            document.getElementById("subgroup-name-input").value = grp.name;
+            const modal = document.getElementById("subgroup-modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        }
+
+        function closeSubgroupModal() {
+            const modal = document.getElementById("subgroup-modal");
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+        }
+
+        async function handleSubgroupSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById("subgroup-edit-id").value;
+            const name = document.getElementById("subgroup-name-input").value.trim();
+            if (!name) return;
+
+            if (id) {
+                const grp = appState.subgroups.find(g => g.id === id);
+                if (grp) grp.name = name;
+            } else {
+                appState.subgroups.push({
+                    id: "grp-" + Date.now(),
+                    name,
+                    collapsed: false
+                });
+            }
+            closeSubgroupModal();
+            await pushToGoogleSheets(true);
         }
 
         // =====================================================================
@@ -1090,7 +2073,11 @@
             document.getElementById("sched-time-24").value = "18:45";
             document.getElementById("sched-category").value = "Recepción y Cena";
             document.getElementById("sched-title").value = "";
+            document.getElementById("sched-responsible").value = "";
             document.getElementById("sched-desc").value = "";
+            document.getElementById("sched-link").value = "";
+            modalTempPhotos.sched = [];
+            renderModalPhotoPreviews("sched");
             document.querySelector('input[name="sched-status"][value="confirmed"]').checked = true;
             document.getElementById("sched-pending-note").value = "";
             toggleSchedPendingField();
@@ -1109,7 +2096,11 @@
             document.getElementById("sched-time-24").value = item.time24;
             document.getElementById("sched-category").value = item.category;
             document.getElementById("sched-title").value = item.title;
+            document.getElementById("sched-responsible").value = item.responsible || "";
             document.getElementById("sched-desc").value = item.description;
+            document.getElementById("sched-link").value = item.linkUrl || "";
+            modalTempPhotos.sched = Array.isArray(item.photos) ? [...item.photos] : [];
+            renderModalPhotoPreviews("sched");
             document.querySelector(`input[name="sched-status"][value="${item.confirmed ? "confirmed" : "pending"}"]`).checked = true;
             document.getElementById("sched-pending-note").value = item.pendingNote || "";
             toggleSchedPendingField();
@@ -1131,7 +2122,10 @@
             const time24 = document.getElementById("sched-time-24").value;
             const category = document.getElementById("sched-category").value;
             const title = document.getElementById("sched-title").value.trim();
+            const responsible = document.getElementById("sched-responsible").value.trim();
             const description = document.getElementById("sched-desc").value.trim();
+            const linkUrl = document.getElementById("sched-link").value.trim();
+            const photos = [...modalTempPhotos.sched];
             const isConfirmed = document.querySelector('input[name="sched-status"]:checked').value === "confirmed";
             const pendingNote = isConfirmed ? "" : document.getElementById("sched-pending-note").value.trim();
 
@@ -1145,7 +2139,10 @@
                         time24,
                         category,
                         title,
+                        responsible,
                         description,
+                        linkUrl,
+                        photos,
                         confirmed: isConfirmed,
                         pendingNote
                     };
@@ -1156,7 +2153,10 @@
                     time24,
                     category,
                     title,
+                    responsible,
                     description,
+                    linkUrl,
+                    photos,
                     confirmed: isConfirmed,
                     pendingNote
                 });
@@ -1169,20 +2169,33 @@
         // =====================================================================
         // MODAL 2: ADD & EDIT GENERAL INFO OR CEREMONY ROLES
         // =====================================================================
+        function populateSubgroupSelect(selectedId = "") {
+            const sel = document.getElementById("card-edit-subgroup");
+            if (!sel) return;
+            sel.innerHTML = appState.subgroups
+                .map(g => `<option value="${g.id}">${escapeHtml(g.name)}</option>`)
+                .join("");
+            if (selectedId) sel.value = selectedId;
+        }
+
         function openAddCardModal(type) {
             document.getElementById("card-edit-type").value = type;
             document.getElementById("card-edit-id").value = "";
 
             const nameInput = document.getElementById("card-edit-name");
             const nameLabel = document.getElementById("card-edit-name-label");
+            const subWrapper = document.getElementById("card-edit-subgroup-wrapper");
             nameInput.value = "";
 
             if (type === "generalInfo") {
+                subWrapper.classList.remove("hidden");
+                populateSubgroupSelect(appState.subgroups[0] ? appState.subgroups[0].id : "");
                 document.getElementById("card-modal-subtitle").textContent = "Información General del Evento";
                 document.getElementById("card-modal-title").textContent = "Agregar dato del evento";
                 nameLabel.textContent = "Título de la tarjeta *";
-                nameInput.placeholder = "Ej. Menú, Hospedaje, Estacionamiento, Mesa de regalos...";
+                nameInput.placeholder = "Ej. Playlist DJ, Hospedaje, Estacionamiento, Flores...";
             } else {
+                subWrapper.classList.add("hidden");
                 document.getElementById("card-modal-subtitle").textContent = "Ceremonia — Roles y Elementos";
                 document.getElementById("card-modal-title").textContent = "Agregar rol o elemento";
                 nameLabel.textContent = "Rol o elemento *";
@@ -1190,8 +2203,12 @@
             }
 
             document.getElementById("card-edit-value").value = "";
+            document.getElementById("card-edit-responsible").value = "";
+            document.getElementById("card-edit-link").value = "";
             document.getElementById("card-edit-maps-wrapper").classList.add("hidden");
             document.getElementById("card-edit-maps").value = "";
+            modalTempPhotos.card = [];
+            renderModalPhotoPreviews("card");
             document.querySelector('input[name="card-status"][value="confirmed"]').checked = true;
 
             const modal = document.getElementById("card-edit-modal");
@@ -1209,13 +2226,17 @@
 
             const nameInput = document.getElementById("card-edit-name");
             const nameLabel = document.getElementById("card-edit-name-label");
+            const subWrapper = document.getElementById("card-edit-subgroup-wrapper");
 
             if (type === "generalInfo") {
+                subWrapper.classList.remove("hidden");
+                populateSubgroupSelect(item.groupId);
                 document.getElementById("card-modal-subtitle").textContent = "Información General";
                 document.getElementById("card-modal-title").textContent = "Editar información";
                 nameLabel.textContent = "Título de la tarjeta *";
                 nameInput.value = item.label;
             } else {
+                subWrapper.classList.add("hidden");
                 document.getElementById("card-modal-subtitle").textContent = "Ceremonia y Roles";
                 document.getElementById("card-modal-title").textContent = "Editar rol o elemento";
                 nameLabel.textContent = "Rol o elemento *";
@@ -1223,6 +2244,8 @@
             }
 
             document.getElementById("card-edit-value").value = item.value;
+            document.getElementById("card-edit-responsible").value = item.responsible || "";
+            document.getElementById("card-edit-link").value = item.linkUrl || "";
 
             const mapsWrapper = document.getElementById("card-edit-maps-wrapper");
             const mapsInput = document.getElementById("card-edit-maps");
@@ -1233,6 +2256,9 @@
                 mapsWrapper.classList.add("hidden");
                 mapsInput.value = "";
             }
+
+            modalTempPhotos.card = Array.isArray(item.photos) ? [...item.photos] : [];
+            renderModalPhotoPreviews("card");
 
             document.querySelector(`input[name="card-status"][value="${item.confirmed ? "confirmed" : "pending"}"]`).checked = true;
 
@@ -1253,6 +2279,10 @@
             const id = document.getElementById("card-edit-id").value;
             const nameVal = document.getElementById("card-edit-name").value.trim();
             const value = document.getElementById("card-edit-value").value.trim();
+            const responsible = document.getElementById("card-edit-responsible").value.trim();
+            const linkUrl = document.getElementById("card-edit-link").value.trim();
+            const photos = [...modalTempPhotos.card];
+            const groupId = document.getElementById("card-edit-subgroup").value;
             const isConfirmed = document.querySelector('input[name="card-status"]:checked').value === "confirmed";
 
             if (!nameVal || !value) return;
@@ -1263,6 +2293,7 @@
                 if (idx !== -1) {
                     if (type === "generalInfo") {
                         list[idx].label = nameVal;
+                        list[idx].groupId = groupId || list[idx].groupId;
                         if (id === "info-venue") {
                             list[idx].mapsUrl = document.getElementById("card-edit-maps").value.trim();
                         }
@@ -1270,14 +2301,21 @@
                         list[idx].title = nameVal;
                     }
                     list[idx].value = value;
+                    list[idx].responsible = responsible;
+                    list[idx].linkUrl = linkUrl;
+                    list[idx].photos = photos;
                     list[idx].confirmed = isConfirmed;
                 }
             } else {
                 if (type === "generalInfo") {
                     list.push({
                         id: "info-" + Date.now(),
+                        groupId: groupId || (appState.subgroups[0] && appState.subgroups[0].id),
                         label: nameVal,
                         value: value,
+                        responsible,
+                        linkUrl,
+                        photos,
                         confirmed: isConfirmed,
                         mapsUrl: ""
                     });
@@ -1286,6 +2324,9 @@
                         id: "role-" + Date.now(),
                         title: nameVal,
                         value: value,
+                        responsible,
+                        linkUrl,
+                        photos,
                         confirmed: isConfirmed
                     });
                 }
@@ -1296,26 +2337,165 @@
         }
 
         // =====================================================================
-        // MODAL 3: DELETE ITEM (Schedule, General Info or Ceremony Role)
+        // TABLES & GUESTS HANDLERS
+        // =====================================================================
+        function toggleTableCollapse(tableId) {
+            const tbl = appState.tables.find(t => t.id === tableId);
+            if (!tbl) return;
+            tbl.collapsed = !tbl.collapsed;
+            saveToLocalStorage();
+            renderTables();
+        }
+
+        async function moveTableOrder(tableId, direction) {
+            const idx = appState.tables.findIndex(t => t.id === tableId);
+            const targetIdx = idx + direction;
+            if (idx === -1 || targetIdx < 0 || targetIdx >= appState.tables.length) return;
+            const [moved] = appState.tables.splice(idx, 1);
+            appState.tables.splice(targetIdx, 0, moved);
+            await pushToGoogleSheets(true);
+        }
+
+        function openAddTableModal() {
+            const nextNum = appState.tables.length + 1;
+            document.getElementById("table-modal-title").textContent = "Agregar nueva mesa";
+            document.getElementById("table-edit-id").value = "";
+            document.getElementById("table-name-input").value = `Mesa ${nextNum}`;
+            document.getElementById("table-capacity-input").value = 9;
+            document.getElementById("table-note-input").value = "";
+            const modal = document.getElementById("table-modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        }
+
+        function openEditTableModal(tableId) {
+            const tbl = appState.tables.find(t => t.id === tableId);
+            if (!tbl) return;
+            document.getElementById("table-modal-title").textContent = "Editar mesa";
+            document.getElementById("table-edit-id").value = tbl.id;
+            document.getElementById("table-name-input").value = tbl.name;
+            document.getElementById("table-capacity-input").value = tbl.capacity;
+            document.getElementById("table-note-input").value = tbl.note || "";
+            const modal = document.getElementById("table-modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        }
+
+        function closeTableModal() {
+            const modal = document.getElementById("table-modal");
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+        }
+
+        async function handleTableSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById("table-edit-id").value;
+            const name = document.getElementById("table-name-input").value.trim();
+            const capacity = parseInt(document.getElementById("table-capacity-input").value, 10) || 9;
+            const note = document.getElementById("table-note-input").value.trim();
+            if (!name) return;
+
+            if (id) {
+                const tbl = appState.tables.find(t => t.id === id);
+                if (tbl) {
+                    tbl.name = name;
+                    tbl.capacity = capacity;
+                    tbl.note = note;
+                }
+            } else {
+                appState.tables.push({
+                    id: "tbl-" + Date.now(),
+                    name,
+                    capacity,
+                    note,
+                    collapsed: false,
+                    guests: []
+                });
+            }
+            closeTableModal();
+            await pushToGoogleSheets(true);
+        }
+
+        async function addGuestToTable(e, tableId) {
+            e.preventDefault();
+            const input = document.getElementById(`guest-input-${tableId}`);
+            if (!input) return;
+            const guestName = input.value.trim();
+            if (!guestName) return;
+
+            const tbl = appState.tables.find(t => t.id === tableId);
+            if (!tbl) return;
+
+            tbl.guests.push({
+                id: "gst-" + Date.now(),
+                name: guestName,
+                confirmed: true
+            });
+            input.value = "";
+            await pushToGoogleSheets(true);
+        }
+
+        async function toggleGuestConfirmed(tableId, guestId) {
+            const tbl = appState.tables.find(t => t.id === tableId);
+            if (!tbl) return;
+            const guest = tbl.guests.find(g => g.id === guestId);
+            if (!guest) return;
+            guest.confirmed = !guest.confirmed;
+            await pushToGoogleSheets(true);
+        }
+
+        async function removeGuestFromTable(tableId, guestId) {
+            const tbl = appState.tables.find(t => t.id === tableId);
+            if (!tbl) return;
+            tbl.guests = tbl.guests.filter(g => g.id !== guestId);
+            await pushToGoogleSheets(true);
+        }
+
+        async function moveGuestToTable(fromTableId, guestId, toTableId) {
+            if (!toTableId) return;
+            const fromTbl = appState.tables.find(t => t.id === fromTableId);
+            const toTbl = appState.tables.find(t => t.id === toTableId);
+            if (!fromTbl || !toTbl) return;
+            const gIdx = fromTbl.guests.findIndex(g => g.id === guestId);
+            if (gIdx === -1) return;
+            const [guest] = fromTbl.guests.splice(gIdx, 1);
+            toTbl.guests.push(guest);
+            await pushToGoogleSheets(true);
+        }
+
+        // =====================================================================
+        // MODAL 6: DELETE ITEM
         // =====================================================================
         function openDeleteModal(type, id) {
-            const list = appState[type];
-            const item = list.find(x => x.id === id);
-            if (!item) return;
-
             pendingDeleteTarget = { type, id };
             const titleEl = document.getElementById("delete-modal-title");
             const descEl = document.getElementById("delete-modal-desc");
 
             if (type === "schedule") {
+                const item = appState.schedule.find(x => x.id === id);
+                if (!item) return;
                 titleEl.textContent = "¿Eliminar horario?";
-                descEl.textContent = `Se eliminará "${formatTime12h(item.time24)} — ${item.title}" del cronograma para todos.`;
+                descEl.textContent = `Se eliminará "${formatTime12h(item.time24)} — ${item.title}" del cronograma.`;
             } else if (type === "generalInfo") {
+                const item = appState.generalInfo.find(x => x.id === id);
+                if (!item) return;
                 titleEl.textContent = "¿Eliminar dato del evento?";
                 descEl.textContent = `Se eliminará la tarjeta "${item.label}" de la información general.`;
-            } else {
+            } else if (type === "ceremonyRoles") {
+                const item = appState.ceremonyRoles.find(x => x.id === id);
+                if (!item) return;
                 titleEl.textContent = "¿Eliminar rol o elemento?";
                 descEl.textContent = `Se eliminará "${item.title}" de la sección de ceremonia.`;
+            } else if (type === "subgroup") {
+                const grp = appState.subgroups.find(g => g.id === id);
+                if (!grp) return;
+                titleEl.textContent = "¿Eliminar subgrupo?";
+                descEl.textContent = `Se eliminará el subgrupo "${grp.name}". Las tarjetas que tenga adentro se moverán al primer subgrupo sin perderse.`;
+            } else if (type === "table") {
+                const tbl = appState.tables.find(t => t.id === id);
+                if (!tbl) return;
+                titleEl.textContent = "¿Eliminar mesa?";
+                descEl.textContent = `Se eliminará "${tbl.name}" junto con su lista de invitados asignados.`;
             }
 
             const modal = document.getElementById("delete-modal");
@@ -1333,7 +2513,19 @@
         async function confirmDeleteItem() {
             if (!pendingDeleteTarget) return;
             const { type, id } = pendingDeleteTarget;
-            appState[type] = appState[type].filter(x => x.id !== id);
+
+            if (type === "subgroup") {
+                appState.subgroups = appState.subgroups.filter(g => g.id !== id);
+                const fallbackId = appState.subgroups[0] ? appState.subgroups[0].id : "grp-lugar";
+                appState.generalInfo.forEach(item => {
+                    if (item.groupId === id) item.groupId = fallbackId;
+                });
+            } else if (type === "table") {
+                appState.tables = appState.tables.filter(t => t.id !== id);
+            } else {
+                appState[type] = appState[type].filter(x => x.id !== id);
+            }
+
             closeDeleteModal();
             await pushToGoogleSheets(true);
         }
@@ -1343,22 +2535,42 @@
         // =====================================================================
         function copyWhatsAppSummary() {
             let text = `*💍 BODA MARTÍN & EDNA — LOGÍSTICA Y CRONOGRAMA*\n\n`;
-            appState.generalInfo.forEach(info => {
-                const mark = info.confirmed ? "✅" : "⚠️";
-                text += `${mark} *${info.label}:* ${info.value}\n`;
+
+            appState.subgroups.forEach(grp => {
+                const cards = appState.generalInfo.filter(i => i.groupId === grp.id);
+                if (cards.length > 0) {
+                    text += `*📂 ${grp.name.toUpperCase()}*\n`;
+                    cards.forEach(info => {
+                        const mark = info.confirmed ? "✅" : "⚠️";
+                        const resp = info.responsible ? ` _(Encargado: ${info.responsible})_` : "";
+                        const link = info.linkUrl ? ` (${info.linkUrl})` : "";
+                        text += `${mark} *${info.label}:* ${info.value}${resp}${link}\n`;
+                    });
+                    text += `\n`;
+                }
             });
 
-            text += `\n*🕒 CRONOGRAMA DEL DÍA*\n`;
+            text += `*🕒 CRONOGRAMA DEL DÍA*\n`;
             appState.schedule.forEach(item => {
+                const resp = item.responsible ? ` [${item.responsible}]` : "";
                 const status = item.confirmed ? "" : ` _(⚠️ Por confirmar: ${item.pendingNote})_`;
-                text += `• *${formatTime12h(item.time24)}* — ${item.title}${status}\n`;
+                text += `• *${formatTime12h(item.time24)}* — ${item.title}${resp}${status}\n`;
             });
 
             text += `\n*⛪ CEREMONIA Y ROLES*\n`;
             appState.ceremonyRoles.forEach(role => {
                 const mark = role.confirmed ? "✅" : "⚠️";
-                text += `${mark} *${role.title}:* ${role.value}\n`;
+                const resp = role.responsible ? ` _(Encargado: ${role.responsible})_` : "";
+                text += `${mark} *${role.title}:* ${role.value}${resp}\n`;
             });
+
+            if (appState.tables.length > 0) {
+                text += `\n*🪑 INVITADOS Y MESAS*\n`;
+                appState.tables.forEach(tbl => {
+                    const names = tbl.guests.map(g => g.name).join(", ") || "Sin asignar";
+                    text += `• *${tbl.name}* (${tbl.guests.length}/${tbl.capacity}): ${names}\n`;
+                });
+            }
 
             const textarea = document.createElement("textarea");
             textarea.value = text;
@@ -1368,7 +2580,7 @@
             textarea.select();
             try {
                 document.execCommand("copy");
-                showToast("Itinerario copiado listo para WhatsApp");
+                showToast("Itinerario completo copiado para WhatsApp");
             } catch (err) {
                 showToast("No se pudo copiar automáticamente");
             }
@@ -1391,10 +2603,11 @@
         // =====================================================================
         // INITIALIZE APP
         // =====================================================================
-        loadFromLocalStorage();
+        loadFromLocalStorage(true);
         sortScheduleChronologically();
+        Object.keys(collapsedSections).forEach(secId => applySectionCollapseUI(secId));
         renderAll();
-        fetchFromGoogleSheets(false);
+        fetchFromGoogleSheets(false, true);
     </script>
 </body>
 </html>
