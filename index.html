@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boda Martín & Edna — Logística y Cronograma</title>
     <!-- Vista previa elegante para WhatsApp y redes sociales -->
-  <meta name="description" content="Martes 22 de diciembre de 2026 • Cronograma, roles de ceremonia y logística en tiempo real.">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Boda Martín & Edna">
-  <meta property="og:title" content="Boda Martín & Edna — Cronograma y Logística">
-  <meta property="og:description" content="Martes 22 de diciembre de 2026 • Horarios, roles de ceremonia y detalles del evento.">
-  <meta property="og:url" content="https://itinerario-boda-martin-edna.netlify.app/">
+    <meta name="description" content="Martes 22 de diciembre de 2026 • Cronograma, roles de ceremonia y logística en tiempo real.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Boda Martín & Edna">
+    <meta property="og:title" content="Boda Martín & Edna — Cronograma y Logística">
+    <meta property="og:description" content="Martes 22 de diciembre de 2026 • Horarios, roles de ceremonia y detalles del evento.">
+    <meta property="og:url" content="https://itinerario-boda-martin-edna.netlify.app/">
     <meta property="og:image" content="https://itinerario-boda-martin-edna.netlify.app/portada.png">
-  <meta property="og:image:type" content="image/png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,7 +53,6 @@
         .font-editorial {
             font-family: 'Cormorant Garamond', Georgia, serif;
         }
-        /* Smooth custom scrollbar for filter bar */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -104,7 +103,7 @@
                 </div>
             </div>
 
-            <!-- Main Title & Actions -->
+            <!-- Main Title & Primary Share Button -->
             <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
                     <h1 class="font-editorial text-3xl sm:text-4xl lg:text-5xl font-bold text-espresso tracking-tight leading-tight">
@@ -115,14 +114,7 @@
                     </p>
                 </div>
 
-                <!-- Primary Action Buttons -->
                 <div class="no-print flex flex-wrap items-center gap-2.5">
-                    <button onclick="openAddScheduleModal()" class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-honey hover:bg-honey-dark text-white shadow-sm transition active:scale-95">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 4v16m8-8H4"/>
-                        </svg>
-                        <span>Agregar horario</span>
-                    </button>
                     <button onclick="copyWhatsAppSummary()" class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-white hover:bg-sand text-espresso border border-honey/40 shadow-xs transition active:scale-95">
                         <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
@@ -139,12 +131,21 @@
 
         <!-- SECTION 1: General Event Info Cards -->
         <section aria-labelledby="info-heading">
-            <div class="flex items-center justify-between mb-4">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-4">
                 <div>
                     <h2 id="info-heading" class="font-editorial text-2xl sm:text-3xl font-bold text-espresso">
                         Información General del Evento
                     </h2>
-                    <p class="text-xs text-stone-500">Haz clic en "Editar / Confirmar" en cualquier tarjeta para actualizarla en vivo.</p>
+                    <p class="text-xs text-stone-500">Haz clic en "Editar / Confirmar" en cualquier tarjeta o agrega nuevos datos del evento.</p>
+                </div>
+
+                <div class="no-print">
+                    <button onclick="openAddCardModal('generalInfo')" class="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold bg-honey hover:bg-honey-dark text-white shadow-xs transition active:scale-95">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        <span>Agregar dato</span>
+                    </button>
                 </div>
             </div>
 
@@ -152,6 +153,9 @@
                 <!-- Populated dynamically via JS -->
             </div>
         </section>
+
+        <!-- Visual Section Divider -->
+        <div class="border-t border-honey/25"></div>
 
         <!-- SECTION 2: Interactive Schedule (Cronograma) -->
         <section aria-labelledby="schedule-heading">
@@ -163,12 +167,19 @@
                     <p class="text-xs text-stone-500">Ordenado automáticamente por hora · Sincronizado para todos los invitados</p>
                 </div>
 
-                <!-- Pending Filter Toggle -->
-                <div class="no-print flex items-center gap-2">
-                    <button id="btn-only-pending" onclick="toggleOnlyPending()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold border border-amber-300 bg-amber-50/70 text-amber-800 hover:bg-amber-100 transition">
+                <!-- Pending Filter Toggle + Add Schedule Button -->
+                <div class="no-print flex flex-wrap items-center gap-2">
+                    <button id="btn-only-pending" onclick="toggleOnlyPending()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold border border-amber-300 bg-amber-50/70 text-amber-800 hover:bg-amber-100 transition">
                         <span id="pending-filter-dot" class="w-2 h-2 rounded-full bg-amber-500"></span>
                         <span>Solo pendientes</span>
                         <span id="pending-count-pill" class="ml-0.5 px-1.5 py-0.2 rounded-full bg-amber-200/80 text-amber-900 text-[10px] font-bold">0</span>
+                    </button>
+
+                    <button onclick="openAddScheduleModal()" class="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold bg-honey hover:bg-honey-dark text-white shadow-xs transition active:scale-95">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        <span>Agregar horario</span>
                     </button>
                 </div>
             </div>
@@ -198,14 +209,28 @@
             </div>
         </section>
 
+        <!-- Visual Section Divider -->
+        <div class="border-t border-honey/25"></div>
+
         <!-- SECTION 3: Ceremony Roles & Elements -->
         <section aria-labelledby="ceremony-heading">
-            <div class="mb-4">
-                <span class="text-[11px] font-bold uppercase tracking-wider text-honey-dark">Organización Litúrgica y Protocolo</span>
-                <h2 id="ceremony-heading" class="font-editorial text-2xl sm:text-3xl font-bold text-espresso">
-                    Ceremonia — Roles y Elementos
-                </h2>
-                <p class="text-xs text-stone-500">Responsables de cada momento y elemento para las 5:30 PM.</p>
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-4">
+                <div>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-honey-dark">Organización Litúrgica y Protocolo</span>
+                    <h2 id="ceremony-heading" class="font-editorial text-2xl sm:text-3xl font-bold text-espresso">
+                        Ceremonia — Roles y Elementos
+                    </h2>
+                    <p class="text-xs text-stone-500">Responsables de cada momento y elemento para las 5:30 PM.</p>
+                </div>
+
+                <div class="no-print">
+                    <button onclick="openAddCardModal('ceremonyRoles')" class="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold bg-honey hover:bg-honey-dark text-white shadow-xs transition active:scale-95">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        <span>Agregar rol / elemento</span>
+                    </button>
+                </div>
             </div>
 
             <div id="ceremony-roles-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
@@ -268,7 +293,6 @@
                 <input type="hidden" id="sched-id">
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <!-- Time Picker -->
                     <div>
                         <label for="sched-time-24" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1">
                             Hora del evento *
@@ -276,7 +300,6 @@
                         <input type="time" id="sched-time-24" required class="w-full rounded-2xl border border-stone-300 px-3.5 py-2.5 text-sm text-espresso focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20">
                     </div>
 
-                    <!-- Category -->
                     <div>
                         <label for="sched-category" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1">
                             Bloque / Categoría *
@@ -290,7 +313,6 @@
                     </div>
                 </div>
 
-                <!-- Title -->
                 <div>
                     <label for="sched-title" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1">
                         Título de la actividad *
@@ -298,7 +320,6 @@
                     <input type="text" id="sched-title" required placeholder="Ej. Fotos con padrinos y familia" class="w-full rounded-2xl border border-stone-300 px-3.5 py-2.5 text-sm text-espresso focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20">
                 </div>
 
-                <!-- Description -->
                 <div>
                     <label for="sched-desc" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1">
                         Descripción y detalles *
@@ -306,7 +327,6 @@
                     <textarea id="sched-desc" rows="3" required placeholder="Explica qué sucede, quién participa o indicaciones para el DJ..." class="w-full rounded-2xl border border-stone-300 px-3.5 py-2.5 text-sm text-espresso focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20"></textarea>
                 </div>
 
-                <!-- Status Toggle -->
                 <div class="p-3.5 rounded-2xl bg-sand/70 border border-stone-200/80 space-y-3">
                     <span class="block text-xs font-bold uppercase tracking-wider text-stone-600">Estado de confirmación</span>
                     <div class="grid grid-cols-2 gap-2">
@@ -345,7 +365,7 @@
     </div>
 
     <!-- ===================================================================== -->
-    <!-- MODAL 2: EDIT GENERAL INFO OR CEREMONY ROLE                           -->
+    <!-- MODAL 2: ADD / EDIT GENERAL INFO OR CEREMONY ROLE                     -->
     <!-- ===================================================================== -->
     <div id="card-edit-modal" class="no-print fixed inset-0 z-50 hidden items-center justify-center bg-espresso/50 backdrop-blur-xs p-4 overflow-y-auto">
         <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-honey/30 my-auto">
@@ -367,11 +387,19 @@
                 <input type="hidden" id="card-edit-type">
                 <input type="hidden" id="card-edit-id">
 
+                <!-- Title / Label (editable when adding new or editing custom cards) -->
+                <div>
+                    <label id="card-edit-name-label" for="card-edit-name" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1">
+                        Título / Concepto *
+                    </label>
+                    <input type="text" id="card-edit-name" required placeholder="Ej. Menú, Hospedaje, Pétalos o Arras..." class="w-full rounded-2xl border border-stone-300 px-3.5 py-2.5 text-sm text-espresso focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20">
+                </div>
+
                 <div>
                     <label for="card-edit-value" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1">
                         Detalle / Responsable confirmado *
                     </label>
-                    <textarea id="card-edit-value" rows="3" required class="w-full rounded-2xl border border-stone-300 px-3.5 py-2.5 text-sm text-espresso focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20"></textarea>
+                    <textarea id="card-edit-value" rows="3" required placeholder="Escribe aquí la información o persona encargada..." class="w-full rounded-2xl border border-stone-300 px-3.5 py-2.5 text-sm text-espresso focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20"></textarea>
                 </div>
 
                 <!-- Optional Google Maps Link (shown only for Lugar / Sede) -->
@@ -382,7 +410,6 @@
                     <input type="url" id="card-edit-maps" placeholder="https://maps.app.goo.gl/..." class="w-full rounded-2xl border border-stone-300 px-3.5 py-2 text-xs text-espresso focus:outline-none focus:border-honey focus:ring-2 focus:ring-honey/20">
                 </div>
 
-                <!-- Status Toggle -->
                 <div class="p-3.5 rounded-2xl bg-sand/70 border border-stone-200/80 space-y-2">
                     <span class="block text-xs font-bold uppercase tracking-wider text-stone-600">Estado</span>
                     <div class="grid grid-cols-2 gap-2">
@@ -414,7 +441,7 @@
     </div>
 
     <!-- ===================================================================== -->
-    <!-- MODAL 3: DELETE CONFIRMATION (Custom Modal - No browser confirm())    -->
+    <!-- MODAL 3: DELETE CONFIRMATION (Schedule, General Info or Ceremony Role)-->
     <!-- ===================================================================== -->
     <div id="delete-modal" class="no-print fixed inset-0 z-50 hidden items-center justify-center bg-espresso/50 backdrop-blur-xs p-4">
         <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-red-200 text-center">
@@ -423,15 +450,15 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                 </svg>
             </div>
-            <h3 class="font-editorial text-2xl font-bold text-espresso">¿Eliminar horario?</h3>
+            <h3 id="delete-modal-title" class="font-editorial text-2xl font-bold text-espresso">¿Eliminar elemento?</h3>
             <p id="delete-modal-desc" class="text-xs text-stone-600 mt-1.5">
-                Este bloque se eliminará del cronograma para todos los invitados.
+                Este elemento se eliminará de la lista para todos los invitados.
             </p>
             <div class="mt-5 flex items-center justify-center gap-2.5">
                 <button onclick="closeDeleteModal()" class="px-4 py-2 rounded-full text-xs font-semibold text-stone-600 hover:bg-stone-100 transition">
                     Cancelar
                 </button>
-                <button onclick="confirmDeleteSchedule()" class="px-5 py-2 rounded-full text-xs font-semibold bg-red-600 hover:bg-red-700 text-white shadow-xs transition">
+                <button onclick="confirmDeleteItem()" class="px-5 py-2 rounded-full text-xs font-semibold bg-red-600 hover:bg-red-700 text-white shadow-xs transition">
                     Sí, eliminar
                 </button>
             </div>
@@ -442,11 +469,9 @@
     <!-- APPLICATION LOGIC & GOOGLE SHEETS SYNC                                -->
     <!-- ===================================================================== -->
     <script>
-        // Hardcoded Google Apps Script Web App URL for Real-Time Cloud Sync
         const GOOGLE_SHEETS_API_URL = "https://script.google.com/macros/s/AKfycbxPcQd9Z0v9Jmqxp7qCkH5mYBKwBi2bkgGqpZsAQYPr84ZPY2-RUVwpe7YtnCotpPqA/exec";
         const LOCAL_STORAGE_KEY = "boda_martin_edna_github_v1";
 
-        // Default General Event Info
         const defaultGeneralInfo = [
             {
                 id: "info-date",
@@ -485,7 +510,6 @@
             }
         ];
 
-        // Default Schedule Items (with 24h time for accurate chronological sorting)
         const defaultSchedule = [
             {
                 id: "sched-1",
@@ -615,7 +639,6 @@
             }
         ];
 
-        // Default Ceremony Roles & Elements
         const defaultCeremonyRoles = [
             {
                 id: "role-1",
@@ -655,17 +678,15 @@
             }
         ];
 
-        // Application State
         let appState = {
             generalInfo: JSON.parse(JSON.stringify(defaultGeneralInfo)),
             schedule: JSON.parse(JSON.stringify(defaultSchedule)),
             ceremonyRoles: JSON.parse(JSON.stringify(defaultCeremonyRoles))
         };
 
-        // UI Filter State
         let currentCategory = "all";
         let onlyPending = false;
-        let pendingDeleteId = null;
+        let pendingDeleteTarget = null; // { type: 'schedule' | 'generalInfo' | 'ceremonyRoles', id: string }
 
         // =====================================================================
         // TIME FORMATTING & SORTING HELPERS
@@ -682,7 +703,6 @@
 
         function sortScheduleChronologically() {
             appState.schedule.sort((a, b) => {
-                // Treat early morning times (00:00 - 04:59) as after midnight (24:00+)
                 const normA = a.time24 < "05:00" ? "24" + a.time24 : a.time24;
                 const normB = b.time24 < "05:00" ? "24" + b.time24 : b.time24;
                 return normA.localeCompare(normB);
@@ -742,7 +762,6 @@
                 });
                 const cloudData = await response.json();
 
-                // If Google Sheet already has saved state, load it; otherwise push initial default state
                 if (cloudData && Array.isArray(cloudData.schedule) && cloudData.schedule.length > 0) {
                     appState = cloudData;
                     sortScheduleChronologically();
@@ -751,7 +770,6 @@
                     setSyncStatus("synced", "Sincronizado en vivo");
                     if (showNotification) showToast("Datos actualizados desde la nube");
                 } else {
-                    // First-time initialization in Google Sheets
                     await pushToGoogleSheets(false);
                 }
             } catch (err) {
@@ -825,12 +843,15 @@
                         <div>
                             <div class="flex items-center justify-between gap-2 mb-2">
                                 <span class="text-[11px] font-bold uppercase tracking-wider text-stone-500">${escapeHtml(item.label)}</span>
-                                ${badgeHtml}
+                                <div class="shrink-0">${badgeHtml}</div>
                             </div>
                             <p class="text-sm font-semibold text-espresso leading-snug">${escapeHtml(item.value)}</p>
                             ${mapsButton}
                         </div>
-                        <div class="no-print mt-3.5 pt-2.5 border-t border-stone-200/60 flex justify-end">
+                        <div class="no-print mt-3.5 pt-2.5 border-t border-stone-200/60 flex items-center justify-between">
+                            <button onclick="openDeleteModal('generalInfo', '${item.id}')" title="Eliminar tarjeta" class="text-xs font-semibold text-red-600 hover:bg-red-50 px-2 py-1 rounded-full transition">
+                                Eliminar
+                            </button>
                             <button onclick="openCardEditModal('generalInfo', '${item.id}')" class="text-xs font-semibold text-honey-dark hover:text-espresso px-2.5 py-1 rounded-full hover:bg-honey-light transition">
                                 Editar / Confirmar
                             </button>
@@ -877,7 +898,6 @@
                 return `
                     <article class="rounded-2xl border p-4 sm:p-5 shadow-2xs transition ${cardBorder}">
                         <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-                            <!-- Left: Time & Category -->
                             <div class="flex sm:flex-col items-center sm:items-start gap-2 sm:w-36 shrink-0">
                                 <span class="font-editorial text-2xl sm:text-3xl font-bold text-honey-dark leading-none">
                                     ${formatTime12h(item.time24)}
@@ -887,7 +907,6 @@
                                 </span>
                             </div>
 
-                            <!-- Center: Title, Description & Status -->
                             <div class="flex-1 min-w-0">
                                 <div class="flex flex-wrap items-center gap-2 mb-1.5">
                                     <h3 class="text-base sm:text-lg font-bold text-espresso leading-snug">
@@ -902,7 +921,6 @@
                                 </div>
                             </div>
 
-                            <!-- Right: Edit & Delete Actions -->
                             <div class="no-print flex items-center gap-1.5 self-end sm:self-start shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-stone-200/60 w-full sm:w-auto justify-end">
                                 <button onclick="openEditScheduleModal('${item.id}')" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold bg-honey-light hover:bg-honey hover:text-white text-honey-dark transition">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -910,7 +928,7 @@
                                     </svg>
                                     <span>Editar</span>
                                 </button>
-                                <button onclick="openDeleteModal('${item.id}')" title="Eliminar horario" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-semibold text-red-700 hover:bg-red-100 transition">
+                                <button onclick="openDeleteModal('schedule', '${item.id}')" title="Eliminar horario" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-semibold text-red-700 hover:bg-red-100 transition">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                     </svg>
@@ -945,7 +963,10 @@
                             </div>
                             <p class="text-xs sm:text-sm text-stone-700 leading-relaxed">${escapeHtml(role.value)}</p>
                         </div>
-                        <div class="no-print mt-3.5 pt-2.5 border-t border-stone-200/60 flex justify-end">
+                        <div class="no-print mt-3.5 pt-2.5 border-t border-stone-200/60 flex items-center justify-between">
+                            <button onclick="openDeleteModal('ceremonyRoles', '${role.id}')" title="Eliminar rol o elemento" class="text-xs font-semibold text-red-600 hover:bg-red-50 px-2 py-1 rounded-full transition">
+                                Eliminar
+                            </button>
                             <button onclick="openCardEditModal('ceremonyRoles', '${role.id}')" class="text-xs font-semibold text-honey-dark hover:text-espresso px-2.5 py-1 rounded-full hover:bg-honey-light transition">
                                 Confirmar / Editar
                             </button>
@@ -1043,9 +1064,9 @@
             onlyPending = !onlyPending;
             const btn = document.getElementById("btn-only-pending");
             if (onlyPending) {
-                btn.className = "inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold border border-amber-600 bg-amber-600 text-white shadow-xs transition";
+                btn.className = "inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold border border-amber-600 bg-amber-600 text-white shadow-xs transition";
             } else {
-                btn.className = "inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold border border-amber-300 bg-amber-50/70 text-amber-800 hover:bg-amber-100 transition";
+                btn.className = "inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold border border-amber-300 bg-amber-50/70 text-amber-800 hover:bg-amber-100 transition";
             }
             renderSchedule();
         }
@@ -1146,8 +1167,38 @@
         }
 
         // =====================================================================
-        // MODAL 2: EDIT GENERAL INFO & CEREMONY ROLES
+        // MODAL 2: ADD & EDIT GENERAL INFO OR CEREMONY ROLES
         // =====================================================================
+        function openAddCardModal(type) {
+            document.getElementById("card-edit-type").value = type;
+            document.getElementById("card-edit-id").value = "";
+
+            const nameInput = document.getElementById("card-edit-name");
+            const nameLabel = document.getElementById("card-edit-name-label");
+            nameInput.value = "";
+
+            if (type === "generalInfo") {
+                document.getElementById("card-modal-subtitle").textContent = "Información General del Evento";
+                document.getElementById("card-modal-title").textContent = "Agregar dato del evento";
+                nameLabel.textContent = "Título de la tarjeta *";
+                nameInput.placeholder = "Ej. Menú, Hospedaje, Estacionamiento, Mesa de regalos...";
+            } else {
+                document.getElementById("card-modal-subtitle").textContent = "Ceremonia — Roles y Elementos";
+                document.getElementById("card-modal-title").textContent = "Agregar rol o elemento";
+                nameLabel.textContent = "Rol o elemento *";
+                nameInput.placeholder = "Ej. Pétalos, Arras, Lazo, Lectura bíblica, Testigos...";
+            }
+
+            document.getElementById("card-edit-value").value = "";
+            document.getElementById("card-edit-maps-wrapper").classList.add("hidden");
+            document.getElementById("card-edit-maps").value = "";
+            document.querySelector('input[name="card-status"][value="confirmed"]').checked = true;
+
+            const modal = document.getElementById("card-edit-modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        }
+
         function openCardEditModal(type, id) {
             const list = appState[type];
             const item = list.find(x => x.id === id);
@@ -1155,8 +1206,22 @@
 
             document.getElementById("card-edit-type").value = type;
             document.getElementById("card-edit-id").value = id;
-            document.getElementById("card-modal-subtitle").textContent = type === "generalInfo" ? "Información General" : "Ceremonia y Roles";
-            document.getElementById("card-modal-title").textContent = type === "generalInfo" ? item.label : item.title;
+
+            const nameInput = document.getElementById("card-edit-name");
+            const nameLabel = document.getElementById("card-edit-name-label");
+
+            if (type === "generalInfo") {
+                document.getElementById("card-modal-subtitle").textContent = "Información General";
+                document.getElementById("card-modal-title").textContent = "Editar información";
+                nameLabel.textContent = "Título de la tarjeta *";
+                nameInput.value = item.label;
+            } else {
+                document.getElementById("card-modal-subtitle").textContent = "Ceremonia y Roles";
+                document.getElementById("card-modal-title").textContent = "Editar rol o elemento";
+                nameLabel.textContent = "Rol o elemento *";
+                nameInput.value = item.title;
+            }
+
             document.getElementById("card-edit-value").value = item.value;
 
             const mapsWrapper = document.getElementById("card-edit-maps-wrapper");
@@ -1186,16 +1251,43 @@
             e.preventDefault();
             const type = document.getElementById("card-edit-type").value;
             const id = document.getElementById("card-edit-id").value;
+            const nameVal = document.getElementById("card-edit-name").value.trim();
             const value = document.getElementById("card-edit-value").value.trim();
             const isConfirmed = document.querySelector('input[name="card-status"]:checked').value === "confirmed";
 
+            if (!nameVal || !value) return;
+
             const list = appState[type];
-            const idx = list.findIndex(x => x.id === id);
-            if (idx !== -1) {
-                list[idx].value = value;
-                list[idx].confirmed = isConfirmed;
-                if (id === "info-venue") {
-                    list[idx].mapsUrl = document.getElementById("card-edit-maps").value.trim();
+            if (id) {
+                const idx = list.findIndex(x => x.id === id);
+                if (idx !== -1) {
+                    if (type === "generalInfo") {
+                        list[idx].label = nameVal;
+                        if (id === "info-venue") {
+                            list[idx].mapsUrl = document.getElementById("card-edit-maps").value.trim();
+                        }
+                    } else {
+                        list[idx].title = nameVal;
+                    }
+                    list[idx].value = value;
+                    list[idx].confirmed = isConfirmed;
+                }
+            } else {
+                if (type === "generalInfo") {
+                    list.push({
+                        id: "info-" + Date.now(),
+                        label: nameVal,
+                        value: value,
+                        confirmed: isConfirmed,
+                        mapsUrl: ""
+                    });
+                } else {
+                    list.push({
+                        id: "role-" + Date.now(),
+                        title: nameVal,
+                        value: value,
+                        confirmed: isConfirmed
+                    });
                 }
             }
 
@@ -1204,14 +1296,27 @@
         }
 
         // =====================================================================
-        // MODAL 3: DELETE SCHEDULE ITEM
+        // MODAL 3: DELETE ITEM (Schedule, General Info or Ceremony Role)
         // =====================================================================
-        function openDeleteModal(id) {
-            const item = appState.schedule.find(s => s.id === id);
+        function openDeleteModal(type, id) {
+            const list = appState[type];
+            const item = list.find(x => x.id === id);
             if (!item) return;
-            pendingDeleteId = id;
-            document.getElementById("delete-modal-desc").textContent =
-                `Se eliminará "${formatTime12h(item.time24)} — ${item.title}" del cronograma para todos.`;
+
+            pendingDeleteTarget = { type, id };
+            const titleEl = document.getElementById("delete-modal-title");
+            const descEl = document.getElementById("delete-modal-desc");
+
+            if (type === "schedule") {
+                titleEl.textContent = "¿Eliminar horario?";
+                descEl.textContent = `Se eliminará "${formatTime12h(item.time24)} — ${item.title}" del cronograma para todos.`;
+            } else if (type === "generalInfo") {
+                titleEl.textContent = "¿Eliminar dato del evento?";
+                descEl.textContent = `Se eliminará la tarjeta "${item.label}" de la información general.`;
+            } else {
+                titleEl.textContent = "¿Eliminar rol o elemento?";
+                descEl.textContent = `Se eliminará "${item.title}" de la sección de ceremonia.`;
+            }
 
             const modal = document.getElementById("delete-modal");
             modal.classList.remove("hidden");
@@ -1219,15 +1324,16 @@
         }
 
         function closeDeleteModal() {
-            pendingDeleteId = null;
+            pendingDeleteTarget = null;
             const modal = document.getElementById("delete-modal");
             modal.classList.add("hidden");
             modal.classList.remove("flex");
         }
 
-        async function confirmDeleteSchedule() {
-            if (!pendingDeleteId) return;
-            appState.schedule = appState.schedule.filter(s => s.id !== pendingDeleteId);
+        async function confirmDeleteItem() {
+            if (!pendingDeleteTarget) return;
+            const { type, id } = pendingDeleteTarget;
+            appState[type] = appState[type].filter(x => x.id !== id);
             closeDeleteModal();
             await pushToGoogleSheets(true);
         }
