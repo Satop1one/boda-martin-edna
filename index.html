@@ -193,14 +193,14 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </span>
-                    <div class="min-w-0">
+                    <div class="min-w-0 flex-1">
                         <div class="flex flex-wrap items-center gap-2">
-                            <h2 id="info-heading" class="font-editorial text-2xl sm:text-3xl font-bold text-espresso group-hover:text-honey-dark transition">
+                            <h2 id="info-heading" class="font-editorial text-2xl sm:text-3xl font-bold text-espresso group-hover:text-honey-dark transition leading-tight">
                                 Información General del Evento
                             </h2>
-                            <span id="count-sec-info" class="px-2.5 py-0.5 rounded-full bg-sand text-stone-700 text-xs font-bold">0 datos</span>
+                            <span id="count-sec-info" class="px-2.5 py-0.5 rounded-full bg-sand text-stone-700 text-xs font-bold shrink-0">0 datos</span>
                         </div>
-                        <p class="text-xs text-stone-500 truncate sm:whitespace-normal">Organizado por subgrupos editables, con responsables, links y fotos de referencia.</p>
+                        <p class="text-xs text-stone-500 mt-0.5 leading-snug">Subgrupos editables con responsables, teléfonos clicables, links y fotos.</p>
                     </div>
                 </button>
             </div>
@@ -245,14 +245,14 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </span>
-                    <div class="min-w-0">
+                    <div class="min-w-0 flex-1">
                         <div class="flex flex-wrap items-center gap-2">
-                            <h2 id="schedule-heading" class="font-editorial text-2xl sm:text-3xl font-bold text-espresso group-hover:text-honey-dark transition">
+                            <h2 id="schedule-heading" class="font-editorial text-2xl sm:text-3xl font-bold text-espresso group-hover:text-honey-dark transition leading-tight">
                                 Cronograma del Día
                             </h2>
-                            <span id="count-sec-schedule" class="px-2.5 py-0.5 rounded-full bg-sand text-stone-700 text-xs font-bold">0 horarios</span>
+                            <span id="count-sec-schedule" class="px-2.5 py-0.5 rounded-full bg-sand text-stone-700 text-xs font-bold shrink-0">0 horarios</span>
                         </div>
-                        <p class="text-xs text-stone-500">Ordenado automáticamente por hora · Con responsables opcionales, links y fotos</p>
+                        <p class="text-xs text-stone-500 mt-0.5 leading-snug">Ordenado por hora · Con responsables opcionales, links y fotos</p>
                     </div>
                 </button>
             </div>
@@ -311,13 +311,13 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </span>
-                    <div class="min-w-0">
+                    <div class="min-w-0 flex-1">
                         <span class="text-[10px] font-bold uppercase tracking-wider text-honey-dark block">Organización Litúrgica y Protocolo</span>
                         <div class="flex flex-wrap items-center gap-2">
-                            <h2 id="ceremony-heading" class="font-editorial text-2xl sm:text-3xl font-bold text-espresso group-hover:text-honey-dark transition">
+                            <h2 id="ceremony-heading" class="font-editorial text-2xl sm:text-3xl font-bold text-espresso group-hover:text-honey-dark transition leading-tight">
                                 Ceremonia — Roles y Elementos
                             </h2>
-                            <span id="count-sec-ceremony" class="px-2.5 py-0.5 rounded-full bg-sand text-stone-700 text-xs font-bold">0 roles</span>
+                            <span id="count-sec-ceremony" class="px-2.5 py-0.5 rounded-full bg-sand text-stone-700 text-xs font-bold shrink-0">0 roles</span>
                         </div>
                     </div>
                 </button>
@@ -383,10 +383,10 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </span>
-                    <div class="min-w-0">
+                    <div class="min-w-0 flex-1">
                         <span class="text-[10px] font-bold uppercase tracking-wider text-honey-dark block">Distribución de Salón San Antonio</span>
                         <div class="flex flex-wrap items-center gap-2">
-                            <h2 id="tables-heading" class="font-editorial text-2xl sm:text-3xl font-bold text-espresso group-hover:text-honey-dark transition">
+                            <h2 id="tables-heading" class="font-editorial text-2xl sm:text-3xl font-bold text-espresso group-hover:text-honey-dark transition leading-tight">
                                 Invitados y Mesas
                             </h2>
                             <span id="tables-summary-pill" class="px-2.5 py-0.5 rounded-full bg-honey-light text-honey-dark border border-honey/25 text-xs font-bold">
@@ -1508,6 +1508,46 @@
                 .replace(/"/g, "&quot;");
         }
 
+        function linkifyPhones(escapedText) {
+            // Detecta teléfonos mexicanos de 10 dígitos con o sin espacios/guiones (ej. 55 4077 7742, 4428191743)
+            return escapedText.replace(/(\b(?:\+?52[\s-]?)?(?:\d{2,3}[\s-]?\d{3,4}[\s-]?\d{4})\b)/g, (match) => {
+                const digits = match.replace(/[^\d+]/g, "");
+                if (digits.replace(/\D/g, "").length < 10) return match;
+                return `<a href="tel:${digits}" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/90 font-semibold text-xs hover:bg-emerald-100 transition whitespace-nowrap">📞 ${match.trim()}</a>`;
+            });
+        }
+
+        function formatCardValueHTML(text) {
+            if (!text) return "";
+            const parts = String(text)
+                .split(/\s*\/{2,3}\s*|\r?\n+/)
+                .map(p => p.trim())
+                .filter(Boolean);
+
+            if (parts.length <= 1) {
+                const single = linkifyPhones(escapeHtml(parts[0] || text));
+                return `<p class="text-[15px] font-bold text-espresso leading-snug">${single}</p>`;
+            }
+
+            const headline = linkifyPhones(escapeHtml(parts[0]));
+            const subLines = parts.slice(1).map(part => {
+                const formattedPart = linkifyPhones(escapeHtml(part));
+                return `
+                    <div class="text-xs text-stone-600 mt-1.5 flex items-start gap-1.5 leading-relaxed">
+                        <span class="text-honey-dark font-bold select-none mt-0.2">•</span>
+                        <span class="flex-1 min-w-0 break-words">${formattedPart}</span>
+                    </div>
+                `;
+            }).join("");
+
+            return `
+                <div>
+                    <p class="text-[15px] font-bold text-espresso leading-snug break-words">${headline}</p>
+                    <div class="mt-1 space-y-0.5">${subLines}</div>
+                </div>
+            `;
+        }
+
         function renderGeneralInfo() {
             const container = document.getElementById("general-info-subgroups");
             const countBadge = document.getElementById("count-sec-info");
@@ -1535,17 +1575,17 @@
                             : `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-200 text-amber-900">! Por confirmar</span>`;
 
                         const respChip = item.responsible
-                            ? `<span class="mt-2 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-sand text-espresso border border-stone-200">👤 ${escapeHtml(item.responsible)}</span>`
+                            ? `<span class="mt-2.5 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-sand text-espresso border border-stone-200">👤 ${escapeHtml(item.responsible)}</span>`
                             : "";
 
                         const linkBtn = item.linkUrl && item.linkUrl.trim() !== ""
-                            ? `<a href="${escapeHtml(item.linkUrl)}" target="_blank" rel="noopener noreferrer" class="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-honey-dark hover:underline mr-3">
+                            ? `<a href="${escapeHtml(item.linkUrl)}" target="_blank" rel="noopener noreferrer" class="mt-2.5 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-honey-light/80 text-xs font-semibold text-honey-dark hover:bg-honey-light transition">
                                  <span>🔗 Abrir enlace</span>
                                </a>`
                             : "";
 
                         const mapsButton = (item.id === "info-venue" && item.mapsUrl && item.mapsUrl.trim() !== "")
-                            ? `<a href="${escapeHtml(item.mapsUrl)}" target="_blank" rel="noopener noreferrer" class="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-honey-dark hover:underline">
+                            ? `<a href="${escapeHtml(item.mapsUrl)}" target="_blank" rel="noopener noreferrer" class="mt-2.5 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-honey-light/80 text-xs font-semibold text-honey-dark hover:bg-honey-light transition">
                                  <span>📍 Ver ubicación en Google Maps</span>
                                </a>`
                             : "";
@@ -1555,27 +1595,27 @@
                         return `
                             <div class="rounded-2xl border p-4 shadow-2xs flex flex-col justify-between transition ${cardStyle}">
                                 <div>
-                                    <div class="flex items-start justify-between gap-2 mb-2">
-                                        <span class="text-[11px] font-bold uppercase tracking-wider text-stone-500">${escapeHtml(item.label)}</span>
+                                    <div class="flex items-start justify-between gap-2 mb-2.5">
+                                        <span class="text-[11px] font-bold uppercase tracking-wider text-stone-500 leading-tight">${escapeHtml(item.label)}</span>
                                         <div class="shrink-0">${badgeHtml}</div>
                                     </div>
-                                    <p class="text-sm font-semibold text-espresso leading-snug">${escapeHtml(item.value)}</p>
-                                    <div class="flex flex-wrap items-center gap-x-2">
+                                    ${formatCardValueHTML(item.value)}
+                                    <div class="flex flex-wrap items-center gap-1.5">
                                         ${respChip}
                                         ${linkBtn}
                                         ${mapsButton}
                                     </div>
                                     ${photosHtml}
                                 </div>
-                                <div class="no-print mt-3.5 pt-2.5 border-t border-stone-200/60 flex items-center justify-between gap-1">
+                                <div class="no-print mt-4 pt-2.5 border-t border-stone-200/60 flex items-center justify-between gap-1.5">
                                     <div class="flex items-center gap-1">
-                                        <button type="button" onclick="moveGeneralCard('${item.id}', -1)" ${idxInGrp === 0 ? "disabled" : ""} title="Subir prioridad" class="p-1.5 rounded-full text-stone-500 hover:bg-sand disabled:opacity-30 transition">↑</button>
-                                        <button type="button" onclick="moveGeneralCard('${item.id}', 1)" ${idxInGrp === itemsInGroup.length - 1 ? "disabled" : ""} title="Bajar prioridad" class="p-1.5 rounded-full text-stone-500 hover:bg-sand disabled:opacity-30 transition">↓</button>
-                                        <button type="button" onclick="openDeleteModal('generalInfo', '${item.id}')" title="Eliminar tarjeta" class="text-xs font-semibold text-red-600 hover:bg-red-50 px-2 py-1 rounded-full transition">
+                                        <button type="button" onclick="moveGeneralCard('${item.id}', -1)" ${idxInGrp === 0 ? "disabled" : ""} title="Subir prioridad" class="min-w-[34px] min-h-[34px] rounded-full text-xs font-bold text-stone-600 hover:bg-sand disabled:opacity-30 transition">↑</button>
+                                        <button type="button" onclick="moveGeneralCard('${item.id}', 1)" ${idxInGrp === itemsInGroup.length - 1 ? "disabled" : ""} title="Bajar prioridad" class="min-w-[34px] min-h-[34px] rounded-full text-xs font-bold text-stone-600 hover:bg-sand disabled:opacity-30 transition">↓</button>
+                                        <button type="button" onclick="openDeleteModal('generalInfo', '${item.id}')" title="Eliminar tarjeta" class="min-h-[34px] text-xs font-semibold text-red-600 hover:bg-red-50 px-2.5 py-1 rounded-full transition">
                                             Eliminar
                                         </button>
                                     </div>
-                                    <button type="button" onclick="openCardEditModal('generalInfo', '${item.id}')" class="text-xs font-semibold text-honey-dark hover:text-espresso px-2.5 py-1 rounded-full hover:bg-honey-light transition">
+                                    <button type="button" onclick="openCardEditModal('generalInfo', '${item.id}')" class="min-h-[34px] text-xs font-semibold text-honey-dark hover:text-espresso px-3 py-1 rounded-full bg-honey-light/60 hover:bg-honey-light transition">
                                         Editar / Confirmar
                                     </button>
                                 </div>
@@ -1585,23 +1625,27 @@
 
                 return `
                     <div class="rounded-2xl bg-sand/65 border border-honey/25 overflow-hidden">
-                        <div class="px-4 py-3 bg-sand flex flex-wrap items-center justify-between gap-2">
-                            <button type="button" onclick="toggleSubgroupCollapse('${grp.id}')" class="flex items-center gap-2 text-left flex-1 min-w-0">
-                                <span class="text-xs font-bold text-honey-dark transition-transform" style="transform: rotate(${grp.collapsed ? "-90deg" : "0deg"})">▼</span>
-                                <h3 class="font-editorial text-xl font-bold text-espresso truncate">${escapeHtml(grp.name)}</h3>
-                                <span class="px-2 py-0.5 rounded-full bg-white text-stone-700 text-[11px] font-bold border border-stone-200">${itemsInGroup.length}</span>
-                                ${pendingInGroup > 0 ? `<span class="px-2 py-0.5 rounded-full bg-amber-200 text-amber-950 text-[10px] font-bold">${pendingInGroup} pend.</span>` : ""}
+                        <div class="px-3.5 sm:px-4 py-3 bg-sand flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                            <button type="button" onclick="toggleSubgroupCollapse('${grp.id}')" class="flex items-start sm:items-center gap-2 text-left flex-1 min-w-0">
+                                <span class="text-xs font-bold text-honey-dark transition-transform mt-1.5 sm:mt-0 shrink-0" style="transform: rotate(${grp.collapsed ? "-90deg" : "0deg"})">▼</span>
+                                <div class="min-w-0 flex-1">
+                                    <div class="flex flex-wrap items-center gap-1.5">
+                                        <h3 class="font-editorial text-xl font-bold text-espresso leading-snug">${escapeHtml(grp.name)}</h3>
+                                        <span class="px-2 py-0.5 rounded-full bg-white text-stone-700 text-[11px] font-bold border border-stone-200">${itemsInGroup.length}</span>
+                                        ${pendingInGroup > 0 ? `<span class="px-2 py-0.5 rounded-full bg-amber-200 text-amber-950 text-[10px] font-bold">${pendingInGroup} pend.</span>` : ""}
+                                    </div>
+                                </div>
                             </button>
 
-                            <div class="no-print flex items-center gap-1">
-                                <button type="button" onclick="moveSubgroup('${grp.id}', -1)" ${grpIdx === 0 ? "disabled" : ""} title="Subir subgrupo" class="px-2 py-1 rounded-full text-xs font-bold bg-white/80 hover:bg-white text-espresso disabled:opacity-30 border border-stone-200 transition">↑</button>
-                                <button type="button" onclick="moveSubgroup('${grp.id}', 1)" ${grpIdx === appState.subgroups.length - 1 ? "disabled" : ""} title="Bajar subgrupo" class="px-2 py-1 rounded-full text-xs font-bold bg-white/80 hover:bg-white text-espresso disabled:opacity-30 border border-stone-200 transition">↓</button>
-                                <button type="button" onclick="openRenameSubgroupModal('${grp.id}')" title="Renombrar subgrupo" class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-white/80 hover:bg-white text-honey-dark border border-stone-200 transition">Renombrar</button>
-                                ${appState.subgroups.length > 1 ? `<button type="button" onclick="openDeleteModal('subgroup', '${grp.id}')" title="Eliminar subgrupo" class="px-2 py-1 rounded-full text-[11px] font-semibold text-red-600 hover:bg-red-50 transition">✕</button>` : ""}
+                            <div class="no-print flex items-center justify-end gap-1.5 pt-2 sm:pt-0 border-t sm:border-t-0 border-stone-300/50">
+                                <button type="button" onclick="moveSubgroup('${grp.id}', -1)" ${grpIdx === 0 ? "disabled" : ""} title="Subir subgrupo" class="min-w-[36px] min-h-[36px] rounded-full text-xs font-bold bg-white/90 hover:bg-white text-espresso disabled:opacity-30 border border-stone-200 transition">↑</button>
+                                <button type="button" onclick="moveSubgroup('${grp.id}', 1)" ${grpIdx === appState.subgroups.length - 1 ? "disabled" : ""} title="Bajar subgrupo" class="min-w-[36px] min-h-[36px] rounded-full text-xs font-bold bg-white/90 hover:bg-white text-espresso disabled:opacity-30 border border-stone-200 transition">↓</button>
+                                <button type="button" onclick="openRenameSubgroupModal('${grp.id}')" title="Renombrar subgrupo" class="min-h-[36px] px-3 py-1.5 rounded-full text-xs font-semibold bg-white/90 hover:bg-white text-honey-dark border border-stone-200 transition">Renombrar</button>
+                                ${appState.subgroups.length > 1 ? `<button type="button" onclick="openDeleteModal('subgroup', '${grp.id}')" title="Eliminar subgrupo" class="min-w-[36px] min-h-[36px] rounded-full text-xs font-semibold text-red-600 bg-white/70 hover:bg-red-50 border border-stone-200 transition">✕</button>` : ""}
                             </div>
                         </div>
 
-                        <div class="${grp.collapsed ? "hidden" : ""} p-3.5 sm:p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                        <div class="${grp.collapsed ? "hidden" : ""} p-3 sm:p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
                             ${cardsHtml}
                         </div>
                     </div>
@@ -1730,11 +1774,11 @@
                     : `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-200 text-amber-900">! Por confirmar</span>`;
 
                 const respChip = role.responsible
-                    ? `<span class="mt-2 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-sand text-espresso border border-stone-200">👤 ${escapeHtml(role.responsible)}</span>`
+                    ? `<span class="mt-2.5 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-sand text-espresso border border-stone-200">👤 ${escapeHtml(role.responsible)}</span>`
                     : "";
 
                 const linkBtn = role.linkUrl && role.linkUrl.trim() !== ""
-                    ? `<a href="${escapeHtml(role.linkUrl)}" target="_blank" rel="noopener noreferrer" class="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-honey-dark hover:underline">
+                    ? `<a href="${escapeHtml(role.linkUrl)}" target="_blank" rel="noopener noreferrer" class="mt-2.5 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-honey-light/80 text-xs font-semibold text-honey-dark hover:bg-honey-light transition">
                          <span>🔗 Abrir enlace</span>
                        </a>`
                     : "";
@@ -1744,26 +1788,26 @@
                 return `
                     <div class="rounded-2xl border p-4 shadow-2xs flex flex-col justify-between transition ${cardStyle}">
                         <div>
-                            <div class="flex items-start justify-between gap-2 mb-2">
-                                <h3 class="text-sm font-bold text-espresso">${escapeHtml(role.title)}</h3>
+                            <div class="flex items-start justify-between gap-2 mb-2.5">
+                                <h3 class="text-sm font-bold text-espresso leading-tight">${escapeHtml(role.title)}</h3>
                                 <div class="shrink-0">${badgeHtml}</div>
                             </div>
-                            <p class="text-xs sm:text-sm text-stone-700 leading-relaxed">${escapeHtml(role.value)}</p>
-                            <div class="flex flex-wrap items-center gap-2">
+                            ${formatCardValueHTML(role.value)}
+                            <div class="flex flex-wrap items-center gap-1.5">
                                 ${respChip}
                                 ${linkBtn}
                             </div>
                             ${photosHtml}
                         </div>
-                        <div class="no-print mt-3.5 pt-2.5 border-t border-stone-200/60 flex items-center justify-between gap-1">
+                        <div class="no-print mt-4 pt-2.5 border-t border-stone-200/60 flex items-center justify-between gap-1.5">
                             <div class="flex items-center gap-1">
-                                <button type="button" onclick="moveCeremonyRole('${role.id}', -1)" ${idx === 0 ? "disabled" : ""} title="Subir" class="p-1.5 rounded-full text-stone-500 hover:bg-sand disabled:opacity-30 transition">↑</button>
-                                <button type="button" onclick="moveCeremonyRole('${role.id}', 1)" ${idx === appState.ceremonyRoles.length - 1 ? "disabled" : ""} title="Bajar" class="p-1.5 rounded-full text-stone-500 hover:bg-sand disabled:opacity-30 transition">↓</button>
-                                <button type="button" onclick="openDeleteModal('ceremonyRoles', '${role.id}')" title="Eliminar rol o elemento" class="text-xs font-semibold text-red-600 hover:bg-red-50 px-2 py-1 rounded-full transition">
+                                <button type="button" onclick="moveCeremonyRole('${role.id}', -1)" ${idx === 0 ? "disabled" : ""} title="Subir" class="min-w-[34px] min-h-[34px] rounded-full text-xs font-bold text-stone-600 hover:bg-sand disabled:opacity-30 transition">↑</button>
+                                <button type="button" onclick="moveCeremonyRole('${role.id}', 1)" ${idx === appState.ceremonyRoles.length - 1 ? "disabled" : ""} title="Bajar" class="min-w-[34px] min-h-[34px] rounded-full text-xs font-bold text-stone-600 hover:bg-sand disabled:opacity-30 transition">↓</button>
+                                <button type="button" onclick="openDeleteModal('ceremonyRoles', '${role.id}')" title="Eliminar rol o elemento" class="min-h-[34px] text-xs font-semibold text-red-600 hover:bg-red-50 px-2.5 py-1 rounded-full transition">
                                     Eliminar
                                 </button>
                             </div>
-                            <button type="button" onclick="openCardEditModal('ceremonyRoles', '${role.id}')" class="text-xs font-semibold text-honey-dark hover:text-espresso px-2.5 py-1 rounded-full hover:bg-honey-light transition">
+                            <button type="button" onclick="openCardEditModal('ceremonyRoles', '${role.id}')" class="min-h-[34px] text-xs font-semibold text-honey-dark hover:text-espresso px-3 py-1 rounded-full bg-honey-light/60 hover:bg-honey-light transition">
                                 Confirmar / Editar
                             </button>
                         </div>
